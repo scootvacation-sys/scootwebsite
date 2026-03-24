@@ -1612,13 +1612,13 @@
 
   .nav-shell {
     gap: 0.65rem;
-    min-height: 4.15rem;
-    padding: 0.6rem 0.62rem 0.6rem 0.92rem;
+    min-height: 4rem;
+    padding: 0.56rem 0.56rem 0.56rem 0.82rem;
   }
 
   .logo-image {
-    max-width: 11.2rem;
-    height: 1.68rem;
+    max-width: 10.4rem;
+    height: 1.56rem;
   }
 
   .nav-links,
@@ -1629,9 +1629,15 @@
 
   .menu-toggle {
     display: inline-flex;
-    width: 2.8rem;
-    height: 2.8rem;
+    width: 2.7rem;
+    height: 2.7rem;
     flex-shrink: 0;
+  }
+
+  .nav-actions {
+    gap: 0;
+    padding-left: 0;
+    border-left: 0;
   }
 
   .mobile-menu {
@@ -1857,21 +1863,21 @@
 
 @media (max-width: 540px) {
   .container {
-    width: min(100% - 1.4rem, 74rem);
+    width: min(100% - 2rem, 74rem);
   }
 
   .nav-shell {
     grid-template-columns: auto auto;
     width: 100%;
     gap: 0.55rem;
-    min-height: 3.95rem;
+    min-height: 3.8rem;
     padding-left: 0.72rem;
-    padding-right: 0.42rem;
+    padding-right: 0.4rem;
   }
 
   .logo-image {
-    max-width: 8.9rem;
-    height: 1.34rem;
+    max-width: 9.6rem;
+    height: 1.45rem;
   }
 
   .hero-tags span,
