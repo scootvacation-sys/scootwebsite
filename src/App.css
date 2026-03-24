@@ -1637,8 +1637,12 @@
   .mobile-menu {
     position: fixed;
     inset: 0;
-    padding: 5rem 0.9rem 0.9rem;
+    display: grid;
+    align-items: start;
+    justify-items: center;
+    padding: 4.7rem 0.9rem 0.9rem;
     background: rgba(3, 10, 18, 0.32);
+    overflow-y: auto;
   }
 
   .mobile-menu-open {
@@ -1646,10 +1650,18 @@
     pointer-events: auto;
   }
 
+  .mobile-menu-backdrop {
+    position: absolute;
+    inset: 0;
+  }
+
   .mobile-menu-panel {
+    position: relative;
+    z-index: 1;
     display: grid;
     gap: 0.8rem;
-    padding: 1rem;
+    width: min(100%, 25rem);
+    padding: 0.95rem;
     border-radius: 1.5rem;
     background:
       linear-gradient(180deg, rgba(21, 31, 43, 0.88), rgba(14, 22, 31, 0.72)),
@@ -1662,8 +1674,36 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.18);
   }
 
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.4rem;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .mobile-menu-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.45rem;
+    height: 2.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
   .mobile-menu-panel a:not(.btn) {
-    padding: 0.8rem 0.2rem;
+    padding: 0.85rem 0.2rem;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 700;
   }
@@ -1825,13 +1865,13 @@
     width: 100%;
     gap: 0.55rem;
     min-height: 3.95rem;
-    padding-left: 0.82rem;
-    padding-right: 0.48rem;
+    padding-left: 0.72rem;
+    padding-right: 0.42rem;
   }
 
   .logo-image {
-    max-width: 9.8rem;
-    height: 1.5rem;
+    max-width: 8.9rem;
+    height: 1.34rem;
   }
 
   .hero-tags span,

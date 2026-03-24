@@ -89,6 +89,7 @@ function ScrollHero({
   onOpenWhatsApp,
 }) {
   const activeFrameUrls = frameUrls.length ? frameUrls : heroFrameUrls;
+  const isBrowser = typeof window !== 'undefined';
   const sectionRef = useRef(null);
   const stickyRef = useRef(null);
   const primaryFrameRef = useRef(null);
@@ -101,6 +102,9 @@ function ScrollHero({
   const primaryFrameIndexRef = useRef(-1);
 
   const [pinDistance, setPinDistance] = useState(2200);
+  const [isCompact, setIsCompact] = useState(
+    isBrowser ? window.innerWidth <= 760 : false
+  );
   const [uiProgress, setUiProgress] = useState(0);
   const [sequenceReady, setSequenceReady] = useState(false);
   const [loadingState, setLoadingState] = useState({
@@ -160,6 +164,17 @@ function ScrollHero({
   }, [activeFrameUrls]);
 
   useEffect(() => {
+    const updateViewportMode = () => {
+      setIsCompact(window.innerWidth <= 760);
+    };
+
+    updateViewportMode();
+    window.addEventListener('resize', updateViewportMode);
+
+    return () => window.removeEventListener('resize', updateViewportMode);
+  }, []);
+
+  useEffect(() => {
     const updatePinDistance = () => {
       setPinDistance(getPinDistance(window.innerWidth, activeFrameUrls.length));
     };
@@ -171,6 +186,10 @@ function ScrollHero({
   }, [activeFrameUrls.length]);
 
   useEffect(() => {
+    if (isCompact) {
+      return undefined;
+    }
+
     let cancelled = false;
     let nextIndex = 0;
     let loadedCount = 0;
@@ -247,9 +266,13 @@ function ScrollHero({
     return () => {
       cancelled = true;
     };
-  }, [activeFrameUrls]);
+  }, [activeFrameUrls, isCompact]);
 
   useEffect(() => {
+    if (isCompact) {
+      return undefined;
+    }
+
     const syncProgress = () => {
       if (sectionRef.current) {
         const sectionRect = sectionRef.current.getBoundingClientRect();
@@ -276,10 +299,10 @@ function ScrollHero({
         window.cancelAnimationFrame(progressFrameRef.current);
       }
     };
-  }, [renderSequence]);
+  }, [isCompact, renderSequence]);
 
   useEffect(() => {
-    if (!stickyRef.current || typeof ResizeObserver === 'undefined') {
+    if (isCompact || !stickyRef.current || typeof ResizeObserver === 'undefined') {
       return;
     }
 
@@ -290,11 +313,53 @@ function ScrollHero({
     observer.observe(stickyRef.current);
 
     return () => observer.disconnect();
-  }, [renderSequence]);
+  }, [isCompact, renderSequence]);
 
   const loadingPercent = loadingState.total
     ? Math.round((loadingState.loaded / loadingState.total) * 100)
     : 0;
+
+  if (isCompact) {
+    return (
+      <header id={id} className="scroll-cinema scroll-cinema--mobile">
+        <div className="scroll-cinema__mobile-visual" aria-hidden="true">
+          <img
+            src={activeFrameUrls[0]}
+            alt=""
+            className="scroll-cinema__mobile-frame"
+          />
+          <div className="scroll-cinema__shade scroll-cinema__shade--left"></div>
+          <div className="scroll-cinema__shade scroll-cinema__shade--top"></div>
+          <div className="scroll-cinema__shade scroll-cinema__shade--bottom"></div>
+        </div>
+
+        <div className="scroll-cinema__mobile-content">
+          <span className="scroll-cinema__label">{copy.eyebrow}</span>
+          <h1>{renderHeadlineWithAccent(copy.headline, copy.headlineAccent)}</h1>
+          <p>{copy.supportingLine}</p>
+
+          <div className="scroll-cinema__mobile-actions">
+            <button
+              type="button"
+              className="scroll-cinema__cta scroll-cinema__cta--solid"
+              onClick={onExplorePackages}
+            >
+              Explore Packages
+              <ArrowRight size={18} />
+            </button>
+            <button
+              type="button"
+              className="scroll-cinema__cta scroll-cinema__cta--ghost"
+              onClick={onOpenWhatsApp}
+            >
+              Start on WhatsApp
+              <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header

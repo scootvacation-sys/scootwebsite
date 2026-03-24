@@ -398,7 +398,22 @@ function App() {
         </div>
 
         <div className={`mobile-menu${isMenuOpen ? ' mobile-menu-open' : ''}`}>
-          <div className="mobile-menu-panel">
+          <div className="mobile-menu-backdrop" onClick={() => setIsMenuOpen(false)}></div>
+          <div
+            className="mobile-menu-panel"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mobile-menu-header">
+              <span>Menu</span>
+              <button
+                type="button"
+                className="mobile-menu-close"
+                aria-label="Close navigation menu"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -408,7 +423,12 @@ function App() {
                 {item.label}
               </a>
             ))}
-            <a href={brochurePath} download className="btn btn-outline mobile-menu-btn">
+            <a
+              href={brochurePath}
+              download
+              className="btn btn-outline mobile-menu-btn"
+              onClick={() => setIsMenuOpen(false)}
+            >
               <Download size={16} />
               Download Brochure
             </a>
