@@ -79,15 +79,15 @@ const renderHeadlineWithAccent = (text, accentWord) => {
 
 const getPinDistance = (viewportWidth, frameCount) => {
   if (viewportWidth < 480) {
-    return Math.max(frameCount * 18, 720);
+    return Math.max(frameCount * 12, 560);
   }
 
   if (viewportWidth < 640) {
-    return Math.max(frameCount * 18, 840);
+    return Math.max(frameCount * 12, 640);
   }
 
   if (viewportWidth < 1024) {
-    return Math.max(frameCount * 10, 1300);
+    return Math.max(frameCount * 10, 1100);
   }
 
   return Math.max(frameCount * 16, 2200);
@@ -370,102 +370,167 @@ function ScrollHero({
     <header
       id={id}
       ref={sectionRef}
-      className="scroll-cinema"
+      className={`scroll-cinema${isCompact ? ' scroll-cinema--compact' : ''}`}
       style={{ minHeight: `calc(100svh + ${pinDistance}px)` }}
     >
-        <div ref={stickyRef} className="scroll-cinema__sticky">
-        <div className="scroll-cinema__visual" aria-hidden="true">
-          <img
-            src={sequenceFrameUrls[0]}
-            alt=""
-            className={`scroll-cinema__poster${
-              sequenceReady ? ' scroll-cinema__poster--hidden' : ''
-            }`}
-          />
-          <img
-            ref={primaryFrameRef}
-            alt=""
-            className={`scroll-cinema__sequence${
-              sequenceReady ? ' is-ready' : ''
-            }`}
-          />
-          <div
-            className="scroll-cinema__shade scroll-cinema__shade--left"
-            style={{ opacity: leftShadeOpacity }}
-          ></div>
-          <div
-            className="scroll-cinema__shade scroll-cinema__shade--right"
-            style={{ opacity: rightShadeOpacity }}
-          ></div>
-          <div className="scroll-cinema__shade scroll-cinema__shade--top"></div>
-          <div className="scroll-cinema__shade scroll-cinema__shade--bottom"></div>
-        </div>
+      <div
+        ref={stickyRef}
+        className={`scroll-cinema__sticky${
+          isCompact ? ' scroll-cinema__sticky--compact' : ''
+        }`}
+      >
+        {isCompact ? (
+          <div className="scroll-cinema__mobile-shell">
+            <div className="scroll-cinema__mobile-media">
+              <div className="scroll-cinema__mobile-visual" aria-hidden="true">
+                <img
+                  src={sequenceFrameUrls[0]}
+                  alt=""
+                  className={`scroll-cinema__poster${
+                    sequenceReady ? ' scroll-cinema__poster--hidden' : ''
+                  }`}
+                />
+                <img
+                  ref={primaryFrameRef}
+                  alt=""
+                  className={`scroll-cinema__sequence${
+                    sequenceReady ? ' is-ready' : ''
+                  }`}
+                />
+                <div className="scroll-cinema__mobile-veil"></div>
+              </div>
 
-        <div className="scroll-cinema__content">
-          <div
-            className="scroll-cinema__intro"
-            style={{
-              opacity: introOpacity,
-              pointerEvents: introOpacity > 0.18 ? 'auto' : 'none',
-              transform: `translate3d(${lerp(
-                0,
-                -88,
-                introTravel
-              )}px, ${lerp(0, -16, introTravel)}px, 0) scale(${lerp(
-                1,
-                0.965,
-                introTravel
-              )})`,
-            }}
-          >
-            <span className="scroll-cinema__label">{copy.eyebrow}</span>
-            <h1>{renderHeadlineWithAccent(copy.headline, copy.headlineAccent)}</h1>
-            <p>{copy.supportingLine}</p>
-            <button
-              type="button"
-              className="scroll-cinema__cta scroll-cinema__cta--solid"
-              onClick={onExplorePackages}
-            >
-              Explore Packages
-              <ArrowRight size={18} />
-            </button>
-          </div>
-
-          <div
-            className="scroll-cinema__support"
-            aria-hidden={supportPhase < 0.05}
-            style={{
-              opacity: supportPhase,
-              pointerEvents: supportPhase > 0.18 ? 'auto' : 'none',
-              transform: `translate3d(${lerp(
-                64,
-                0,
-                supportPhase
-              )}px, ${lerp(20, 0, supportPhase)}px, 0)`,
-            }}
-          >
-            <span className="scroll-cinema__label">{copy.lateEyebrow}</span>
-            <h2>
-              {renderHeadlineWithAccent(copy.lateHeadline, copy.lateHeadlineAccent)}
-            </h2>
-            <p>{copy.lateLine}</p>
-            <button
-              type="button"
-              className="scroll-cinema__cta scroll-cinema__cta--ghost"
-              onClick={onOpenWhatsApp}
-            >
-              Start on WhatsApp
-              <ArrowRight size={18} />
-            </button>
-          </div>
-
-          {!loadingState.ready ? (
-            <div className="scroll-cinema__loading">
-              <span>Loading journey</span>
-              <strong>{loadingPercent}%</strong>
+              {!loadingState.ready ? (
+                <div className="scroll-cinema__mobile-loading">
+                  <span>Loading journey</span>
+                  <strong>{loadingPercent}%</strong>
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
+
+            <div className="scroll-cinema__mobile-copy">
+              <span className="scroll-cinema__label">{copy.eyebrow}</span>
+              <h1>{renderHeadlineWithAccent(copy.headline, copy.headlineAccent)}</h1>
+              <p>{copy.supportingLine}</p>
+              <div className="scroll-cinema__mobile-actions">
+                <button
+                  type="button"
+                  className="scroll-cinema__cta scroll-cinema__cta--solid"
+                  onClick={onExplorePackages}
+                >
+                  Explore Packages
+                  <ArrowRight size={18} />
+                </button>
+                <button
+                  type="button"
+                  className="scroll-cinema__cta scroll-cinema__cta--ghost"
+                  onClick={onOpenWhatsApp}
+                >
+                  Start on WhatsApp
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="scroll-cinema__visual" aria-hidden="true">
+              <img
+                src={sequenceFrameUrls[0]}
+                alt=""
+                className={`scroll-cinema__poster${
+                  sequenceReady ? ' scroll-cinema__poster--hidden' : ''
+                }`}
+              />
+              <img
+                ref={primaryFrameRef}
+                alt=""
+                className={`scroll-cinema__sequence${
+                  sequenceReady ? ' is-ready' : ''
+                }`}
+              />
+              <div
+                className="scroll-cinema__shade scroll-cinema__shade--left"
+                style={{ opacity: leftShadeOpacity }}
+              ></div>
+              <div
+                className="scroll-cinema__shade scroll-cinema__shade--right"
+                style={{ opacity: rightShadeOpacity }}
+              ></div>
+              <div className="scroll-cinema__shade scroll-cinema__shade--top"></div>
+              <div className="scroll-cinema__shade scroll-cinema__shade--bottom"></div>
+            </div>
+
+            <div className="scroll-cinema__content">
+              <div
+                className="scroll-cinema__intro"
+                style={{
+                  opacity: introOpacity,
+                  pointerEvents: introOpacity > 0.18 ? 'auto' : 'none',
+                  transform: `translate3d(${lerp(
+                    0,
+                    -88,
+                    introTravel
+                  )}px, ${lerp(0, -16, introTravel)}px, 0) scale(${lerp(
+                    1,
+                    0.965,
+                    introTravel
+                  )})`,
+                }}
+              >
+                <span className="scroll-cinema__label">{copy.eyebrow}</span>
+                <h1>{renderHeadlineWithAccent(copy.headline, copy.headlineAccent)}</h1>
+                <p>{copy.supportingLine}</p>
+                <button
+                  type="button"
+                  className="scroll-cinema__cta scroll-cinema__cta--solid"
+                  onClick={onExplorePackages}
+                >
+                  Explore Packages
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+
+              <div
+                className="scroll-cinema__support"
+                aria-hidden={supportPhase < 0.05}
+                style={{
+                  opacity: supportPhase,
+                  pointerEvents: supportPhase > 0.18 ? 'auto' : 'none',
+                  transform: `translate3d(${lerp(
+                    64,
+                    0,
+                    supportPhase
+                  )}px, ${lerp(20, 0, supportPhase)}px, 0)`,
+                }}
+              >
+                <span className="scroll-cinema__label">{copy.lateEyebrow}</span>
+                <h2>
+                  {renderHeadlineWithAccent(
+                    copy.lateHeadline,
+                    copy.lateHeadlineAccent
+                  )}
+                </h2>
+                <p>{copy.lateLine}</p>
+                <button
+                  type="button"
+                  className="scroll-cinema__cta scroll-cinema__cta--ghost"
+                  onClick={onOpenWhatsApp}
+                >
+                  Start on WhatsApp
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+
+              {!loadingState.ready ? (
+                <div className="scroll-cinema__loading">
+                  <span>Loading journey</span>
+                  <strong>{loadingPercent}%</strong>
+                </div>
+              ) : null}
+            </div>
+          </>
+        )}
       </div>
     </header>
   );
