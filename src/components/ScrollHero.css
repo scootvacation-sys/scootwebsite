@@ -326,28 +326,7 @@
   }
 
   .scroll-cinema__support {
-    right: auto;
-    left: 0;
-    bottom: 2.8rem;
-    width: min(15.8rem, 78vw);
-    max-width: none;
-    justify-items: start;
-    text-align: left;
-  }
-
-  .scroll-cinema__support h2 {
-    margin-left: 0;
-    max-width: 6.6ch;
-    font-size: clamp(2.55rem, 10.8vw, 3.55rem);
-    line-height: 0.92;
-  }
-
-  .scroll-cinema__support p {
-    margin-left: 0;
-    max-width: 14rem;
-    margin-top: 0.95rem;
-    font-size: 0.9rem;
-    line-height: 1.48;
+    display: none;
   }
 
   .scroll-cinema__cta {
@@ -383,20 +362,6 @@
   .scroll-cinema__intro p {
     max-width: 13.2rem;
     font-size: 0.88rem;
-  }
-
-  .scroll-cinema__support {
-    bottom: 2.2rem;
-    width: min(14.6rem, 76vw);
-  }
-
-  .scroll-cinema__support h2 {
-    font-size: clamp(2.35rem, 10vw, 3.1rem);
-  }
-
-  .scroll-cinema__support p {
-    max-width: 12.8rem;
-    font-size: 0.86rem;
   }
 
   .scroll-cinema__cta {
