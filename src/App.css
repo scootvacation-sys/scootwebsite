@@ -1863,7 +1863,7 @@
 
 @media (max-width: 540px) {
   .container {
-    width: min(100% - 2rem, 74rem);
+    width: min(100% - 2.6rem, 74rem);
   }
 
   .nav-shell {
@@ -1871,8 +1871,8 @@
     width: 100%;
     gap: 0.55rem;
     min-height: 3.8rem;
-    padding-left: 0.72rem;
-    padding-right: 0.4rem;
+    padding-left: 0.7rem;
+    padding-right: 0.36rem;
   }
 
   .logo-image {

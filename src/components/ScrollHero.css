@@ -265,7 +265,7 @@
 
 .scroll-cinema--mobile {
   min-height: 100svh;
-  padding: 6.4rem 0 1.35rem;
+  padding: 5.55rem 0 1.35rem;
 }
 
 .scroll-cinema__mobile-visual {
@@ -300,7 +300,7 @@
   display: grid;
   gap: 0;
   width: min(100% - 2rem, 24rem);
-  min-height: calc(100svh - 8rem);
+  min-height: calc(100svh - 6.9rem);
   margin: 0 auto;
   align-content: end;
 }
@@ -360,12 +360,12 @@
 
 @media (max-width: 560px) {
   .scroll-cinema--mobile {
-    padding-top: 5.9rem;
+    padding-top: 5.15rem;
   }
 
   .scroll-cinema__mobile-content {
     width: min(100% - 1.8rem, 21rem);
-    min-height: calc(100svh - 7rem);
+    min-height: calc(100svh - 6.15rem);
   }
 
   .scroll-cinema__mobile-content h1 {
