@@ -332,6 +332,7 @@ function ScrollHero({
             className="scroll-cinema__intro"
             style={{
               opacity: introOpacity,
+              pointerEvents: introOpacity > 0.18 ? 'auto' : 'none',
               transform: `translate3d(${lerp(
                 0,
                 -88,
@@ -361,6 +362,7 @@ function ScrollHero({
             aria-hidden={supportPhase < 0.05}
             style={{
               opacity: supportPhase,
+              pointerEvents: supportPhase > 0.18 ? 'auto' : 'none',
               transform: `translate3d(${lerp(
                 64,
                 0,
