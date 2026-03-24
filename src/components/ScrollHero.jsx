@@ -143,7 +143,7 @@ function ScrollHero({
   });
 
   const isCompact = viewportWidth <= 760;
-  const compactFrameLimit = viewportWidth <= 480 ? 48 : 60;
+  const compactFrameLimit = viewportWidth <= 480 ? 72 : 88;
   const sequenceFrameUrls = useMemo(() => {
     if (!isCompact) {
       return activeFrameUrls;
@@ -177,7 +177,7 @@ function ScrollHero({
     const nextProgress = lerp(
       smoothedProgressRef.current,
       targetProgressRef.current,
-      0.14
+      isCompact ? 0.18 : 0.14
     );
     const settledProgress =
       Math.abs(nextProgress - targetProgressRef.current) < 0.0008
@@ -209,7 +209,7 @@ function ScrollHero({
       uiProgressRef.current = settledProgress;
       setUiProgress(settledProgress);
     }
-  }, [sequenceFrameUrls]);
+  }, [isCompact, sequenceFrameUrls]);
 
   useEffect(() => {
     const updateViewportMode = () => {

@@ -276,7 +276,7 @@
 }
 
 .scroll-cinema__mobile-shell {
-  width: min(100% - 1.6rem, 23rem);
+  width: min(100% - 1rem, 25rem);
   min-height: 100svh;
   margin: 0 auto;
   padding: 5.2rem 0 1.75rem;
@@ -288,7 +288,7 @@
 .scroll-cinema__mobile-media {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16 / 11.5;
+  aspect-ratio: 16 / 9.4;
   border-radius: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background:
@@ -340,7 +340,7 @@
 
 .scroll-cinema__mobile-copy h1 {
   max-width: 6.4ch;
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
   color: white;
   font-size: clamp(3.2rem, 13vw, 4.6rem);
   line-height: 0.9;
@@ -411,8 +411,8 @@
 
 @media (max-width: 760px) {
   .scroll-cinema__mobile-shell {
-    width: min(100% - 1.4rem, 22.5rem);
-    padding-top: 5rem;
+    width: min(100% - 0.9rem, 24.2rem);
+    padding-top: 4.8rem;
   }
 
   .scroll-cinema__mobile-copy h1 {
@@ -438,13 +438,13 @@
 
 @media (max-width: 560px) {
   .scroll-cinema__mobile-shell {
-    width: min(100% - 1.2rem, 21.8rem);
-    padding-top: 4.85rem;
+    width: min(100% - 0.85rem, 23.4rem);
+    padding-top: 4.65rem;
     gap: 1.05rem;
   }
 
   .scroll-cinema__mobile-media {
-    aspect-ratio: 16 / 12.2;
+    aspect-ratio: 16 / 9.9;
     border-radius: 1.75rem;
   }
 
