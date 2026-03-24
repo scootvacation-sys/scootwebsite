@@ -143,7 +143,7 @@ function ScrollHero({
   });
 
   const isCompact = viewportWidth <= 760;
-  const compactFrameLimit = viewportWidth <= 480 ? 28 : 40;
+  const compactFrameLimit = viewportWidth <= 480 ? 48 : 60;
   const sequenceFrameUrls = useMemo(() => {
     if (!isCompact) {
       return activeFrameUrls;
@@ -152,15 +152,21 @@ function ScrollHero({
     return sampleFrameUrls(activeFrameUrls, compactFrameLimit);
   }, [activeFrameUrls, compactFrameLimit, isCompact]);
   const readyFrameTarget = Math.min(
-    isCompact ? 10 : READY_FRAME_TARGET,
+    isCompact ? 14 : READY_FRAME_TARGET,
     sequenceFrameUrls.length
   );
 
-  const introTravel = easeInOutCubic(clamp(uiProgress / 0.58, 0, 1));
-  const introOpacity = 1 - introTravel;
-  const supportPhase = easeOutCubic(clamp((uiProgress - 0.5) / 0.28, 0, 1));
-  const leftShadeOpacity = lerp(0.88, 0.22, clamp(uiProgress / 0.76, 0, 1));
-  const rightShadeOpacity = lerp(0, 0.62, supportPhase);
+  const introTravel = isCompact
+    ? 0
+    : easeInOutCubic(clamp(uiProgress / 0.58, 0, 1));
+  const introOpacity = isCompact ? 1 : 1 - introTravel;
+  const supportPhase = isCompact
+    ? 0
+    : easeOutCubic(clamp((uiProgress - 0.5) / 0.28, 0, 1));
+  const leftShadeOpacity = isCompact
+    ? 0.92
+    : lerp(0.88, 0.22, clamp(uiProgress / 0.76, 0, 1));
+  const rightShadeOpacity = isCompact ? 0 : lerp(0, 0.62, supportPhase);
 
   const renderSequence = useCallback(() => {
     const primaryFrame = primaryFrameRef.current;
