@@ -19,6 +19,34 @@ const easeOutCubic = (value) => 1 - (1 - value) ** 3;
 const easeInOutCubic = (value) =>
   value < 0.5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2;
 
+const sampleFrameUrls = (frameUrls, targetFrameCount) => {
+  if (frameUrls.length <= targetFrameCount) {
+    return frameUrls;
+  }
+
+  const sampledUrls = [];
+  const lastIndex = frameUrls.length - 1;
+
+  for (let index = 0; index < targetFrameCount; index += 1) {
+    const sampleIndex = Math.round((index * lastIndex) / (targetFrameCount - 1));
+    const sampleUrl = frameUrls[sampleIndex];
+
+    if (sampledUrls.at(-1) !== sampleUrl) {
+      sampledUrls.push(sampleUrl);
+    }
+  }
+
+  if (sampledUrls[0] !== frameUrls[0]) {
+    sampledUrls.unshift(frameUrls[0]);
+  }
+
+  if (sampledUrls.at(-1) !== frameUrls[lastIndex]) {
+    sampledUrls.push(frameUrls[lastIndex]);
+  }
+
+  return sampledUrls;
+};
+
 const heroCopy = {
   eyebrow: 'Scoot Vacations',
   headline: 'Road trips that stay with you.',
@@ -51,11 +79,11 @@ const renderHeadlineWithAccent = (text, accentWord) => {
 
 const getPinDistance = (viewportWidth, frameCount) => {
   if (viewportWidth < 480) {
-    return Math.max(frameCount * 6, 760);
+    return Math.max(frameCount * 18, 720);
   }
 
   if (viewportWidth < 640) {
-    return Math.max(frameCount * 7, 900);
+    return Math.max(frameCount * 18, 840);
   }
 
   if (viewportWidth < 1024) {
@@ -102,8 +130,8 @@ function ScrollHero({
   const primaryFrameIndexRef = useRef(-1);
 
   const [pinDistance, setPinDistance] = useState(2200);
-  const [isCompact, setIsCompact] = useState(
-    isBrowser ? window.innerWidth <= 760 : false
+  const [viewportWidth, setViewportWidth] = useState(
+    isBrowser ? window.innerWidth : 1280
   );
   const [uiProgress, setUiProgress] = useState(0);
   const [sequenceReady, setSequenceReady] = useState(false);
@@ -113,6 +141,16 @@ function ScrollHero({
     ready: false,
     firstFrameReady: false,
   });
+
+  const isCompact = viewportWidth <= 760;
+  const compactFrameLimit = viewportWidth <= 480 ? 28 : 40;
+  const sequenceFrameUrls = isCompact
+    ? sampleFrameUrls(activeFrameUrls, compactFrameLimit)
+    : activeFrameUrls;
+  const readyFrameTarget = Math.min(
+    isCompact ? 10 : READY_FRAME_TARGET,
+    sequenceFrameUrls.length
+  );
 
   const introTravel = easeInOutCubic(clamp(uiProgress / 0.58, 0, 1));
   const introOpacity = 1 - introTravel;
@@ -138,17 +176,17 @@ function ScrollHero({
 
     smoothedProgressRef.current = settledProgress;
 
-    const totalFrames = activeFrameUrls.length;
-    const frameFloat = settledProgress * (totalFrames - 1);
+    const totalSequenceFrames = sequenceFrameUrls.length;
+    const frameFloat = settledProgress * (totalSequenceFrames - 1);
     const frameIndex = Math.floor(frameFloat);
     const currentLoadedIndex = findNearestLoadedIndex(
       loadedFramesRef.current,
       frameIndex,
-      totalFrames
+      totalSequenceFrames
     );
 
     if (currentLoadedIndex >= 0 && currentLoadedIndex !== primaryFrameIndexRef.current) {
-      primaryFrame.src = activeFrameUrls[currentLoadedIndex];
+      primaryFrame.src = sequenceFrameUrls[currentLoadedIndex];
       primaryFrameIndexRef.current = currentLoadedIndex;
     }
 
@@ -161,11 +199,11 @@ function ScrollHero({
       uiProgressRef.current = settledProgress;
       setUiProgress(settledProgress);
     }
-  }, [activeFrameUrls]);
+  }, [sequenceFrameUrls]);
 
   useEffect(() => {
     const updateViewportMode = () => {
-      setIsCompact(window.innerWidth <= 760);
+      setViewportWidth(window.innerWidth);
     };
 
     updateViewportMode();
@@ -176,20 +214,26 @@ function ScrollHero({
 
   useEffect(() => {
     const updatePinDistance = () => {
-      setPinDistance(getPinDistance(window.innerWidth, activeFrameUrls.length));
+      setPinDistance(getPinDistance(window.innerWidth, sequenceFrameUrls.length));
     };
 
     updatePinDistance();
     window.addEventListener('resize', updatePinDistance);
 
     return () => window.removeEventListener('resize', updatePinDistance);
-  }, [activeFrameUrls.length]);
+  }, [sequenceFrameUrls.length]);
 
   useEffect(() => {
-    if (isCompact) {
-      return undefined;
-    }
+    loadedFramesRef.current = [];
+    primaryFrameIndexRef.current = -1;
+    sequenceReadyRef.current = false;
 
+    if (primaryFrameRef.current) {
+      primaryFrameRef.current.src = sequenceFrameUrls[0];
+    }
+  }, [sequenceFrameUrls]);
+
+  useEffect(() => {
     let cancelled = false;
     let nextIndex = 0;
     let loadedCount = 0;
@@ -205,11 +249,11 @@ function ScrollHero({
       });
 
     const worker = async () => {
-      while (!cancelled && nextIndex < activeFrameUrls.length) {
+      while (!cancelled && nextIndex < sequenceFrameUrls.length) {
         const index = nextIndex;
         nextIndex += 1;
 
-        const image = await loadFrame(activeFrameUrls[index]);
+        const image = await loadFrame(sequenceFrameUrls[index]);
         if (cancelled) {
           return;
         }
@@ -220,23 +264,22 @@ function ScrollHero({
         }
 
         if (index === 0 && image && primaryFrameRef.current) {
-          primaryFrameRef.current.src = activeFrameUrls[0];
+          primaryFrameRef.current.src = sequenceFrameUrls[0];
           primaryFrameIndexRef.current = 0;
         }
 
         const firstFrameReady = Boolean(loadedFramesRef.current[0]);
-        const ready =
-          firstFrameReady && loadedCount >= Math.min(READY_FRAME_TARGET, activeFrameUrls.length);
+        const ready = firstFrameReady && loadedCount >= readyFrameTarget;
 
         if (
           index === 0 ||
-          loadedCount <= READY_FRAME_TARGET ||
-          loadedCount === activeFrameUrls.length ||
+          loadedCount <= readyFrameTarget ||
+          loadedCount === sequenceFrameUrls.length ||
           loadedCount % 12 === 0
         ) {
           setLoadingState({
             loaded: loadedCount,
-            total: activeFrameUrls.length,
+            total: sequenceFrameUrls.length,
             ready,
             firstFrameReady,
           });
@@ -246,7 +289,7 @@ function ScrollHero({
     };
 
     const workers = Array.from(
-      { length: Math.min(LOAD_CONCURRENCY, activeFrameUrls.length) },
+      { length: Math.min(LOAD_CONCURRENCY, sequenceFrameUrls.length) },
       () => worker()
     );
 
@@ -254,10 +297,8 @@ function ScrollHero({
       if (!cancelled) {
         setLoadingState({
           loaded: loadedCount,
-          total: activeFrameUrls.length,
-          ready:
-            Boolean(loadedFramesRef.current[0]) &&
-            loadedCount >= Math.min(READY_FRAME_TARGET, activeFrameUrls.length),
+          total: sequenceFrameUrls.length,
+          ready: Boolean(loadedFramesRef.current[0]) && loadedCount >= readyFrameTarget,
           firstFrameReady: Boolean(loadedFramesRef.current[0]),
         });
       }
@@ -266,13 +307,9 @@ function ScrollHero({
     return () => {
       cancelled = true;
     };
-  }, [activeFrameUrls, isCompact]);
+  }, [readyFrameTarget, sequenceFrameUrls]);
 
   useEffect(() => {
-    if (isCompact) {
-      return undefined;
-    }
-
     const syncProgress = () => {
       if (sectionRef.current) {
         const sectionRect = sectionRef.current.getBoundingClientRect();
@@ -299,10 +336,10 @@ function ScrollHero({
         window.cancelAnimationFrame(progressFrameRef.current);
       }
     };
-  }, [isCompact, renderSequence]);
+  }, [renderSequence]);
 
   useEffect(() => {
-    if (isCompact || !stickyRef.current || typeof ResizeObserver === 'undefined') {
+    if (!stickyRef.current || typeof ResizeObserver === 'undefined') {
       return;
     }
 
@@ -313,53 +350,11 @@ function ScrollHero({
     observer.observe(stickyRef.current);
 
     return () => observer.disconnect();
-  }, [isCompact, renderSequence]);
+  }, [renderSequence]);
 
   const loadingPercent = loadingState.total
     ? Math.round((loadingState.loaded / loadingState.total) * 100)
     : 0;
-
-  if (isCompact) {
-    return (
-      <header id={id} className="scroll-cinema scroll-cinema--mobile">
-        <div className="scroll-cinema__mobile-visual" aria-hidden="true">
-          <img
-            src={activeFrameUrls[0]}
-            alt=""
-            className="scroll-cinema__mobile-frame"
-          />
-          <div className="scroll-cinema__shade scroll-cinema__shade--left"></div>
-          <div className="scroll-cinema__shade scroll-cinema__shade--top"></div>
-          <div className="scroll-cinema__shade scroll-cinema__shade--bottom"></div>
-        </div>
-
-        <div className="scroll-cinema__mobile-content">
-          <span className="scroll-cinema__label">{copy.eyebrow}</span>
-          <h1>{renderHeadlineWithAccent(copy.headline, copy.headlineAccent)}</h1>
-          <p>{copy.supportingLine}</p>
-
-          <div className="scroll-cinema__mobile-actions">
-            <button
-              type="button"
-              className="scroll-cinema__cta scroll-cinema__cta--solid"
-              onClick={onExplorePackages}
-            >
-              Explore Packages
-              <ArrowRight size={18} />
-            </button>
-            <button
-              type="button"
-              className="scroll-cinema__cta scroll-cinema__cta--ghost"
-              onClick={onOpenWhatsApp}
-            >
-              Start on WhatsApp
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </div>
-      </header>
-    );
-  }
 
   return (
     <header
@@ -368,10 +363,10 @@ function ScrollHero({
       className="scroll-cinema"
       style={{ minHeight: `calc(100svh + ${pinDistance}px)` }}
     >
-      <div ref={stickyRef} className="scroll-cinema__sticky">
+        <div ref={stickyRef} className="scroll-cinema__sticky">
         <div className="scroll-cinema__visual" aria-hidden="true">
           <img
-            src={activeFrameUrls[0]}
+            src={sequenceFrameUrls[0]}
             alt=""
             className={`scroll-cinema__poster${
               sequenceReady ? ' scroll-cinema__poster--hidden' : ''
