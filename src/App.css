@@ -1863,21 +1863,21 @@
 
 @media (max-width: 540px) {
   .container {
-    width: min(100% - 2.6rem, 74rem);
+    width: min(100% - 3.4rem, 74rem);
   }
 
   .nav-shell {
     grid-template-columns: auto auto;
     width: 100%;
     gap: 0.55rem;
-    min-height: 3.8rem;
-    padding-left: 0.7rem;
-    padding-right: 0.36rem;
+    min-height: 3.65rem;
+    padding-left: 0.62rem;
+    padding-right: 0.3rem;
   }
 
   .logo-image {
-    max-width: 9.6rem;
-    height: 1.45rem;
+    max-width: 8.8rem;
+    height: 1.32rem;
   }
 
   .hero-tags span,
