@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import frameManifest from '../generated/ezgif-manifest.json';
 import './ScrollHero.css';
@@ -144,9 +144,13 @@ function ScrollHero({
 
   const isCompact = viewportWidth <= 760;
   const compactFrameLimit = viewportWidth <= 480 ? 28 : 40;
-  const sequenceFrameUrls = isCompact
-    ? sampleFrameUrls(activeFrameUrls, compactFrameLimit)
-    : activeFrameUrls;
+  const sequenceFrameUrls = useMemo(() => {
+    if (!isCompact) {
+      return activeFrameUrls;
+    }
+
+    return sampleFrameUrls(activeFrameUrls, compactFrameLimit);
+  }, [activeFrameUrls, compactFrameLimit, isCompact]);
   const readyFrameTarget = Math.min(
     isCompact ? 10 : READY_FRAME_TARGET,
     sequenceFrameUrls.length
