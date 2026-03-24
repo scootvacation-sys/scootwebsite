@@ -50,12 +50,16 @@ const renderHeadlineWithAccent = (text, accentWord) => {
 };
 
 const getPinDistance = (viewportWidth, frameCount) => {
+  if (viewportWidth < 480) {
+    return Math.max(frameCount * 6, 760);
+  }
+
   if (viewportWidth < 640) {
-    return Math.max(frameCount * 10, 1100);
+    return Math.max(frameCount * 7, 900);
   }
 
   if (viewportWidth < 1024) {
-    return Math.max(frameCount * 12, 1500);
+    return Math.max(frameCount * 10, 1300);
   }
 
   return Math.max(frameCount * 16, 2200);
