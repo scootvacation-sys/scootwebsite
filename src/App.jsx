@@ -450,7 +450,6 @@ function App() {
                 onClick={() => setIsNavOpen((open) => !open)}
               >
                 {isNavOpen ? <X size={18} /> : <Menu size={18} />}
-                <span>{isNavOpen ? 'Close' : 'Menu'}</span>
               </button>
             </div>
           </div>
