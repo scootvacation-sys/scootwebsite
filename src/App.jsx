@@ -83,7 +83,12 @@ const contactLinks = [
     href: 'mailto:scootvacations@gmail.com',
     icon: Mail,
   },
-  { label: '+91 94464 82881', href: 'tel:+919446482881', icon: Phone },
+  {
+    label: '+91 94464 82881',
+    href: 'tel:+919446482881',
+    icon: Phone,
+    iconClassName: 'contact-icon-ringing',
+  },
   { label: '+91 95263 72881', href: 'tel:+919526372881', icon: Phone },
   { label: '+91 95441 21932', href: 'tel:+919544121932', icon: Phone },
 ];
@@ -903,7 +908,12 @@ function App() {
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noreferrer' : undefined}
                     >
-                      <Icon size={18} strokeWidth={2.1} aria-hidden="true" />
+                      <Icon
+                        size={18}
+                        strokeWidth={2.1}
+                        aria-hidden="true"
+                        className={item.iconClassName}
+                      />
                       <span>{item.label}</span>
                     </a>
                   );
