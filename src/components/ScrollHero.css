@@ -452,9 +452,9 @@
   }
 }
 
-@media (max-width: 1360px) and (min-width: 761px) {
+@media (max-width: 1440px) and (min-width: 761px) {
   .scroll-cinema__content {
-    width: min(100% - 2.75rem, 74rem);
+    width: min(100% - 2.5rem, 76rem);
   }
 
   .scroll-cinema__intro {
@@ -463,24 +463,24 @@
   }
 
   .scroll-cinema__support {
-    right: 0.4rem;
-    bottom: clamp(2.25rem, 6vh, 4rem);
-    max-width: 22rem;
+    right: 1rem;
+    bottom: 0.9rem;
+    max-width: 25rem;
   }
 
   .scroll-cinema__intro h1,
   .scroll-cinema__support h2 {
-    font-size: clamp(3.1rem, 4.9vw, 4.6rem);
+    font-size: clamp(2.8rem, 4vw, 4.1rem);
   }
 
   .scroll-cinema__support h2 {
-    max-width: 6.4ch;
-    line-height: 0.94;
+    max-width: 7.4ch;
+    line-height: 0.96;
   }
 
   .scroll-cinema__support p {
-    max-width: 18rem;
-    font-size: 0.98rem;
+    max-width: 19rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -491,18 +491,18 @@
 
   .scroll-cinema__support {
     right: 0;
-    bottom: 1.8rem;
-    max-width: 18rem;
+    bottom: 0.75rem;
+    max-width: 20rem;
   }
 
   .scroll-cinema__support h2 {
-    max-width: 6.1ch;
-    font-size: clamp(2.7rem, 4.6vw, 3.9rem);
+    max-width: 7ch;
+    font-size: clamp(2.35rem, 4vw, 3.3rem);
   }
 
   .scroll-cinema__support p {
-    max-width: 16rem;
-    font-size: 0.92rem;
+    max-width: 16.5rem;
+    font-size: 0.88rem;
   }
 }
 

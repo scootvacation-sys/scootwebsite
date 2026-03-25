@@ -253,7 +253,7 @@ function ScrollHero({
   const introOpacity = isCompact ? 1 : 1 - introTravel;
   const supportPhase = isCompact
     ? 0
-    : easeOutCubic(clamp((uiProgress - 0.5) / 0.28, 0, 1));
+    : easeOutCubic(clamp((uiProgress - 0.64) / 0.2, 0, 1));
   const leftShadeOpacity = isCompact
     ? 0.92
     : lerp(0.88, 0.22, clamp(uiProgress / 0.76, 0, 1));
