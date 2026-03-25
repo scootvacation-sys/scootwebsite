@@ -150,6 +150,50 @@ const findNearestLoadedIndex = (frames, index, totalFrames) => {
   return -1;
 };
 
+const drawCoverFrame = (canvas, image, focusX = 0.5, focusY = 0.5) => {
+  if (!canvas || !image) {
+    return;
+  }
+
+  const rect = canvas.getBoundingClientRect();
+  if (!rect.width || !rect.height) {
+    return;
+  }
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  const targetWidth = Math.round(rect.width * dpr);
+  const targetHeight = Math.round(rect.height * dpr);
+
+  if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+  }
+
+  const context = canvas.getContext('2d', { alpha: false });
+  if (!context) {
+    return;
+  }
+
+  const sourceWidth = image.naturalWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.height;
+  if (!sourceWidth || !sourceHeight) {
+    return;
+  }
+
+  const scale = Math.max(targetWidth / sourceWidth, targetHeight / sourceHeight);
+  const drawWidth = sourceWidth * scale;
+  const drawHeight = sourceHeight * scale;
+  const overflowX = Math.max(drawWidth - targetWidth, 0);
+  const overflowY = Math.max(drawHeight - targetHeight, 0);
+  const offsetX = -overflowX * focusX;
+  const offsetY = -overflowY * focusY;
+
+  context.clearRect(0, 0, targetWidth, targetHeight);
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = 'high';
+  context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+};
+
 function ScrollHero({
   id = 'home',
   frameUrls = heroFrameUrls,
@@ -161,6 +205,7 @@ function ScrollHero({
   const isBrowser = typeof window !== 'undefined';
   const sectionRef = useRef(null);
   const stickyRef = useRef(null);
+  const canvasRef = useRef(null);
   const primaryFrameRef = useRef(null);
   const loadedFramesRef = useRef([]);
   const progressFrameRef = useRef(0);
@@ -168,7 +213,7 @@ function ScrollHero({
   const smoothedProgressRef = useRef(0);
   const uiProgressRef = useRef(0);
   const sequenceReadyRef = useRef(false);
-  const primaryFrameIndexRef = useRef(-1);
+  const displayedFrameIndexRef = useRef(-1);
 
   const [pinDistance, setPinDistance] = useState(2200);
   const [viewportWidth, setViewportWidth] = useState(
@@ -213,10 +258,32 @@ function ScrollHero({
     ? 0.92
     : lerp(0.88, 0.22, clamp(uiProgress / 0.76, 0, 1));
   const rightShadeOpacity = isCompact ? 0 : lerp(0, 0.62, supportPhase);
+  const mobileFocusX = viewportWidth <= 560 ? 0.56 : 0.54;
+
+  const renderLoadedFrame = useCallback(
+    (frameIndex) => {
+      const image = loadedFramesRef.current[frameIndex];
+      if (!image) {
+        return;
+      }
+
+      if (isCompact) {
+        drawCoverFrame(canvasRef.current, image, mobileFocusX, 0.5);
+      } else if (primaryFrameRef.current) {
+        primaryFrameRef.current.src = sequenceFrameUrls[frameIndex];
+      }
+
+      displayedFrameIndexRef.current = frameIndex;
+    },
+    [isCompact, mobileFocusX, sequenceFrameUrls]
+  );
 
   const renderSequence = useCallback(() => {
-    const primaryFrame = primaryFrameRef.current;
-    if (!primaryFrame) {
+    if (!isCompact && !primaryFrameRef.current) {
+      return;
+    }
+
+    if (isCompact && !canvasRef.current) {
       return;
     }
 
@@ -243,9 +310,11 @@ function ScrollHero({
       totalSequenceFrames
     );
 
-    if (currentLoadedIndex >= 0 && currentLoadedIndex !== primaryFrameIndexRef.current) {
-      primaryFrame.src = sequenceFrameUrls[currentLoadedIndex];
-      primaryFrameIndexRef.current = currentLoadedIndex;
+    if (
+      currentLoadedIndex >= 0 &&
+      currentLoadedIndex !== displayedFrameIndexRef.current
+    ) {
+      renderLoadedFrame(currentLoadedIndex);
     }
 
     if (currentLoadedIndex >= 0 && !sequenceReadyRef.current) {
@@ -257,7 +326,7 @@ function ScrollHero({
       uiProgressRef.current = settledProgress;
       setUiProgress(settledProgress);
     }
-  }, [isCompact, sequenceFrameUrls]);
+  }, [isCompact, renderLoadedFrame, sequenceFrameUrls]);
 
   useEffect(() => {
     const updateViewportMode = () => {
@@ -283,11 +352,16 @@ function ScrollHero({
 
   useEffect(() => {
     loadedFramesRef.current = [];
-    primaryFrameIndexRef.current = -1;
+    displayedFrameIndexRef.current = -1;
     sequenceReadyRef.current = false;
 
     if (primaryFrameRef.current) {
       primaryFrameRef.current.src = sequenceFrameUrls[0];
+    }
+
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      context?.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     }
   }, [sequenceFrameUrls]);
 
@@ -321,9 +395,8 @@ function ScrollHero({
           loadedCount += 1;
         }
 
-        if (index === 0 && image && primaryFrameRef.current) {
-          primaryFrameRef.current.src = sequenceFrameUrls[0];
-          primaryFrameIndexRef.current = 0;
+        if (index === 0 && image) {
+          renderLoadedFrame(0);
         }
 
         const firstFrameReady = Boolean(loadedFramesRef.current[0]);
@@ -365,7 +438,7 @@ function ScrollHero({
     return () => {
       cancelled = true;
     };
-  }, [loadOrder, readyFrameTarget, sequenceFrameUrls]);
+  }, [loadOrder, readyFrameTarget, renderLoadedFrame, sequenceFrameUrls]);
 
   useEffect(() => {
     const syncProgress = () => {
@@ -402,6 +475,7 @@ function ScrollHero({
     }
 
     const observer = new ResizeObserver(() => {
+      displayedFrameIndexRef.current = -1;
       renderSequence();
     });
 
@@ -438,9 +512,9 @@ function ScrollHero({
                     sequenceReady ? ' scroll-cinema__poster--hidden' : ''
                   }`}
                 />
-                <img
-                  ref={primaryFrameRef}
-                  alt=""
+                <canvas
+                  ref={canvasRef}
+                  aria-hidden="true"
                   className={`scroll-cinema__sequence${
                     sequenceReady ? ' is-ready' : ''
                   }`}
