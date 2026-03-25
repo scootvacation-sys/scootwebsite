@@ -3949,3 +3949,628 @@
     justify-content: center;
   }
 }
+
+.scoot-intro-section {
+  padding-top: 6.4rem;
+}
+
+.scoot-intro-shell,
+.scoot-choose-shell,
+.scoot-memory-shell,
+.scoot-social-shell,
+.scoot-cta-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.scoot-intro-copy,
+.scoot-intro-side,
+.scoot-service-panel,
+.scoot-memory-copy,
+.scoot-trust-card,
+.scoot-cta-copy,
+.scoot-cta-form {
+  border: 1px solid rgba(11, 22, 33, 0.08);
+  box-shadow: 0 30px 82px -64px rgba(8, 21, 33, 0.26);
+}
+
+.scoot-intro-copy,
+.scoot-intro-side {
+  padding: 2rem;
+  border-radius: 2.25rem;
+}
+
+.scoot-intro-copy {
+  background:
+    radial-gradient(circle at top left, rgba(242, 164, 75, 0.16), transparent 26%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(247, 241, 232, 0.95));
+}
+
+.scoot-intro-copy h2,
+.scoot-section-head h2,
+.scoot-choose-copy h2,
+.scoot-memory-copy h2,
+.scoot-social-copy h2,
+.scoot-cta-copy h2 {
+  margin-top: 1rem;
+  font-size: clamp(2.5rem, 4.8vw, 4.8rem);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+}
+
+.scoot-intro-copy p,
+.scoot-intro-side p,
+.scoot-section-head p,
+.scoot-choose-copy p,
+.scoot-memory-copy p,
+.scoot-social-copy p,
+.scoot-cta-copy p {
+  margin-top: 1rem;
+  color: var(--ink-600);
+  font-size: 1.02rem;
+}
+
+.scoot-intro-side {
+  display: grid;
+  align-content: end;
+  background:
+    radial-gradient(circle at 80% 12%, rgba(20, 116, 141, 0.12), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 238, 229, 0.88));
+}
+
+.scoot-intro-actions,
+.scoot-memory-copy .btn,
+.scoot-cta-actions {
+  margin-top: 1.45rem;
+}
+
+.scoot-intro-actions,
+.scoot-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.scoot-intro-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.scoot-intro-strip span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.78rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(11, 22, 33, 0.08);
+  color: var(--ink-800);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.scoot-section-head {
+  margin-bottom: 1.8rem;
+}
+
+.scoot-section-head-split {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+
+.scoot-section-head-split > p {
+  max-width: 29rem;
+}
+
+.scoot-services-section {
+  background:
+    radial-gradient(circle at top right, rgba(20, 116, 141, 0.08), transparent 20%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 238, 229, 0.86));
+}
+
+.scoot-services-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.scoot-service-panel {
+  display: grid;
+  align-content: start;
+  gap: 0;
+  min-height: 15rem;
+  padding: 1.35rem;
+  border-radius: 1.9rem;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.scoot-service-panel span {
+  color: var(--ink-900);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.scoot-service-panel p {
+  margin-top: 0.7rem;
+  color: var(--ink-600);
+  font-size: 0.96rem;
+}
+
+.scoot-service-panel:nth-child(1) {
+  grid-column: span 6;
+  background:
+    radial-gradient(circle at top left, rgba(242, 164, 75, 0.18), transparent 24%),
+    linear-gradient(160deg, #fff8ef, #ffffff);
+}
+
+.scoot-service-panel:nth-child(2),
+.scoot-service-panel:nth-child(3) {
+  grid-column: span 3;
+}
+
+.scoot-service-panel:nth-child(4),
+.scoot-service-panel:nth-child(5) {
+  grid-column: span 6;
+}
+
+.scoot-service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
+}
+
+.scoot-service-tags strong {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 0.78rem;
+  border-radius: 999px;
+  background: rgba(11, 22, 33, 0.06);
+  color: var(--ink-800);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scoot-choose-shell {
+  align-items: start;
+}
+
+.scoot-choose-copy {
+  max-width: 31rem;
+}
+
+.scoot-choose-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.scoot-choose-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(11, 22, 33, 0.08);
+}
+
+.scoot-choose-row:first-child {
+  border-top: 0;
+  padding-top: 0.2rem;
+}
+
+.scoot-choose-row span {
+  color: var(--ink-400);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.scoot-choose-row h3 {
+  font-size: 1.22rem;
+}
+
+.scoot-choose-row p {
+  margin-top: 0.35rem;
+  color: var(--ink-600);
+}
+
+.scoot-memory-section {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.08), transparent 22%),
+    radial-gradient(circle at 88% 18%, rgba(242, 164, 75, 0.16), transparent 24%),
+    linear-gradient(135deg, #07131d 0%, #0d3045 48%, #13596d 100%);
+}
+
+.scoot-memory-media,
+.scoot-memory-copy {
+  overflow: hidden;
+  border-radius: 2.2rem;
+}
+
+.scoot-memory-media {
+  min-height: 32rem;
+  box-shadow: 0 40px 92px -64px rgba(0, 0, 0, 0.42);
+}
+
+.scoot-memory-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scoot-memory-copy {
+  display: grid;
+  align-content: center;
+  padding: 2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.scoot-memory-copy h2,
+.scoot-social-copy h2 {
+  color: white;
+}
+
+.scoot-memory-copy p,
+.scoot-social-copy p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.scoot-journeys-section {
+  background:
+    radial-gradient(circle at top left, rgba(20, 116, 141, 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 238, 229, 0.88));
+}
+
+.scoot-journeys-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.scoot-journey-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 18rem;
+  border-radius: 2rem;
+  grid-column: span 4;
+  box-shadow: 0 32px 80px -62px rgba(8, 21, 33, 0.34);
+}
+
+.scoot-journey-card-large {
+  grid-column: span 8;
+  min-height: 23rem;
+}
+
+.scoot-journey-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scoot-journey-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: end;
+  padding: 1.4rem;
+  background:
+    linear-gradient(180deg, rgba(7, 17, 26, 0.06), rgba(7, 17, 26, 0.68));
+}
+
+.scoot-journey-overlay h3 {
+  color: white;
+  font-size: 1.45rem;
+}
+
+.scoot-journey-overlay p {
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.scoot-north-band {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.4rem;
+  border: 1px solid rgba(11, 22, 33, 0.08);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 28px 74px -60px rgba(8, 21, 33, 0.22);
+}
+
+.scoot-north-band-copy h3 {
+  margin-top: 0.7rem;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.scoot-north-band-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.scoot-north-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.72rem 0.92rem;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 22, 33, 0.08);
+  background: rgba(20, 116, 141, 0.06);
+  color: var(--ink-800);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.scoot-north-chip:hover,
+.scoot-north-chip:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(20, 116, 141, 0.22);
+  color: var(--primary);
+}
+
+.scoot-north-chip-muted {
+  background: rgba(11, 22, 33, 0.04);
+}
+
+.scoot-process-section {
+  padding-top: 4.8rem;
+  padding-bottom: 4.8rem;
+}
+
+.scoot-process-shell {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.scoot-process-line {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.scoot-process-step {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1rem 1.1rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(11, 22, 33, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.scoot-process-step span {
+  color: var(--ink-400);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.scoot-process-step strong {
+  color: var(--ink-900);
+  font-size: 1rem;
+}
+
+.scoot-trust-section {
+  background:
+    radial-gradient(circle at top right, rgba(242, 164, 75, 0.12), transparent 20%),
+    linear-gradient(180deg, rgba(245, 240, 233, 0.9), rgba(255, 255, 255, 0.98));
+}
+
+.scoot-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.scoot-trust-card {
+  padding: 1.45rem;
+  border-radius: 1.8rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.scoot-trust-card p {
+  color: var(--ink-800);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.scoot-social-section {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.08), transparent 20%),
+    linear-gradient(135deg, #07131d 0%, #10283a 44%, #17384c 100%);
+}
+
+.scoot-social-copy {
+  display: grid;
+  align-content: center;
+}
+
+.scoot-social-button {
+  margin-top: 1.5rem;
+  width: fit-content;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: white;
+}
+
+.scoot-social-film {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.scoot-social-frame {
+  overflow: hidden;
+  min-height: 22rem;
+  border-radius: 1.8rem;
+  box-shadow: 0 34px 86px -62px rgba(0, 0, 0, 0.44);
+}
+
+.scoot-social-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scoot-social-frame-two {
+  transform: translateY(1.4rem);
+}
+
+.scoot-social-frame-three {
+  transform: translateY(0.6rem);
+}
+
+.scoot-cta-section {
+  padding-bottom: 6.4rem;
+}
+
+.scoot-cta-copy,
+.scoot-cta-form {
+  padding: 2rem;
+  border-radius: 2.2rem;
+}
+
+.scoot-cta-copy {
+  background:
+    radial-gradient(circle at top right, rgba(242, 164, 75, 0.18), transparent 32%),
+    linear-gradient(180deg, rgba(244, 238, 229, 0.78), rgba(255, 255, 255, 0.96));
+}
+
+.scoot-cta-contact-list {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.45rem;
+}
+
+.scoot-cta-contact-list a {
+  color: var(--ink-800);
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.scoot-cta-form {
+  background: white;
+}
+
+.scoot-footer {
+  padding: 2rem 0 2.6rem;
+}
+
+.scoot-footer-shell {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.4rem;
+}
+
+.scoot-footer-brand p {
+  margin-top: 0.7rem;
+  max-width: 24rem;
+}
+
+.scoot-footer-links,
+.scoot-footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.95rem;
+}
+
+@media (max-width: 1120px) {
+  .scoot-intro-shell,
+  .scoot-choose-shell,
+  .scoot-memory-shell,
+  .scoot-social-shell,
+  .scoot-cta-shell,
+  .scoot-north-band {
+    grid-template-columns: 1fr;
+  }
+
+  .scoot-services-grid,
+  .scoot-journeys-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scoot-service-panel,
+  .scoot-service-panel:nth-child(1),
+  .scoot-service-panel:nth-child(2),
+  .scoot-service-panel:nth-child(3),
+  .scoot-service-panel:nth-child(4),
+  .scoot-service-panel:nth-child(5),
+  .scoot-journey-card,
+  .scoot-journey-card-large {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .scoot-section-head-split,
+  .scoot-footer-shell {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .scoot-section-head-split > p {
+    max-width: none;
+  }
+
+  .scoot-services-grid,
+  .scoot-trust-grid,
+  .scoot-social-film,
+  .scoot-process-line {
+    grid-template-columns: 1fr;
+  }
+
+  .scoot-intro-actions,
+  .scoot-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scoot-intro-actions .btn,
+  .scoot-cta-actions .btn,
+  .scoot-memory-copy .btn,
+  .scoot-social-button {
+    width: 100%;
+  }
+
+  .scoot-social-frame-two,
+  .scoot-social-frame-three {
+    transform: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .scoot-intro-copy,
+  .scoot-intro-side,
+  .scoot-service-panel,
+  .scoot-memory-copy,
+  .scoot-north-band,
+  .scoot-trust-card,
+  .scoot-cta-copy,
+  .scoot-cta-form {
+    padding: 1.35rem;
+  }
+
+  .scoot-intro-strip span,
+  .scoot-service-tags strong,
+  .scoot-north-chip {
+    width: 100%;
+    justify-content: center;
+  }
+}

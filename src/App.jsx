@@ -7,9 +7,6 @@ import {
   Menu,
   MessageCircle,
   Phone,
-  ShieldCheck,
-  Sparkles,
-  Users,
   X,
 } from 'lucide-react';
 import './App.css';
@@ -44,40 +41,96 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const aboutStats = [
-  { value: 'Affordable', label: 'Budget-aware packages without cutting the experience' },
-  { value: 'Included', label: 'Complimentary videographer on selected departures' },
-  { value: 'Guided', label: 'Friendly support that keeps the trip comfortable' },
-];
-
-const reasons = [
-  {
-    icon: ShieldCheck,
-    title: 'Affordable packages',
-    text: 'Well-planned routes that stay practical on budget while keeping the trip quality intact.',
-  },
-  {
-    icon: Users,
-    title: 'Happy customers, every time',
-    text: 'Scoot is built around comfortable departures, repeat smiles, and easier group travel.',
-  },
-  {
-    icon: Camera,
-    title: 'Complimentary videographer',
-    text: 'Selected trips include a videographer so your best moments are captured without extra cost.',
-  },
-  {
-    icon: Sparkles,
-    title: 'Friendly travel guides',
-    text: 'From the first message to the last stop, the trip is designed to feel supported and easy.',
-  },
-];
-
 const serviceLines = [
   'Tour Packages',
-  'College IV',
+  'College Trips',
   'Resort Bookings',
   'Bus Bookings',
+  'Custom Travel Planning',
+];
+
+const serviceShowcase = [
+  {
+    title: 'Tour Packages',
+    note: 'Short escapes to longer circuits, with clean route planning from the start.',
+    detail: ['1 Day', '2 Days', '3 Days', '4 Days', 'North India'],
+    featured: true,
+  },
+  {
+    title: 'College Trips',
+    note: 'Group-friendly planning that keeps the energy high and the logistics easier.',
+  },
+  {
+    title: 'Resort Booking',
+    note: 'Stay-led getaways for people who want the weekend to feel calmer and more polished.',
+  },
+  {
+    title: 'Bus Booking',
+    note: 'Travel coordination without scattered calls, vendor confusion, or last-minute stress.',
+  },
+  {
+    title: 'Custom Travel Planning',
+    note: 'Destination, timing, stay, and support shaped around the group instead of a fixed template.',
+  },
+];
+
+const whyScootReasons = [
+  {
+    title: 'Seamless planning',
+    text: 'Route, stay, transport, and coordination are handled like one trip, not separate tasks.',
+  },
+  {
+    title: 'Affordable packages',
+    text: 'The trip stays practical on budget without losing the feeling that it was worth taking.',
+  },
+  {
+    title: 'Memorable group experiences',
+    text: 'Scoot is strongest when the journey feels shared, smooth, and easy to enjoy together.',
+  },
+  {
+    title: 'Professional trip coverage',
+    text: 'A built-in videographer changes the experience because the group can stay present on the road.',
+  },
+  {
+    title: 'Friendly guidance and support',
+    text: 'From first enquiry to final stop, the tone stays helpful, clear, and human.',
+  },
+];
+
+const experienceBlocks = [
+  {
+    title: 'Group Trips',
+    note: 'Built for shared energy and easy movement.',
+    image: imagePaths.groupTrip,
+  },
+  {
+    title: 'College Tours',
+    note: 'Structured enough to feel smooth, open enough to stay fun.',
+    image: imagePaths.forestRoute,
+  },
+  {
+    title: 'Family Trips',
+    note: 'Comfort-first routes with less planning stress.',
+    image: imagePaths.cityBreak,
+  },
+  {
+    title: 'Couple Getaways',
+    note: 'Short escapes with stronger mood and better pace.',
+    image: imagePaths.coastalEscape,
+  },
+  {
+    title: 'Resort Escapes',
+    note: 'Stay-led breaks for slower weekends and reset trips.',
+    image: imagePaths.resortStay,
+  },
+];
+
+const processSteps = ['Enquire', 'Plan', 'Book', 'Travel', 'Capture Memories'];
+
+const trustSignals = [
+  'Planned for groups, families, couples, and special getaways.',
+  'Built for affordable travel that still feels well put together.',
+  'Made for people who want the trip enjoyed first and remembered properly after.',
 ];
 
 const durationCollections = [
@@ -217,12 +270,10 @@ const contactNumbers = [
 
 const defaultFormData = {
   fullName: '',
-  email: '',
   phone: '',
   interest: 'Package Inquiry',
   destination: '',
-  travelMonth: '',
-  travelers: '2',
+  email: '',
   message: '',
 };
 
@@ -231,7 +282,6 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showWhatsAppFloat, setShowWhatsAppFloat] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
-  const [activePackageKey, setActivePackageKey] = useState('two-day');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -301,20 +351,14 @@ function App() {
       '',
       `Name: ${formData.fullName}`,
       `Phone: ${formData.phone}`,
-      formData.email ? `Email: ${formData.email}` : '',
       `Interested in: ${formData.interest}`,
       formData.destination ? `Destination / Package: ${formData.destination}` : '',
-      formData.travelMonth ? `Travel month: ${formData.travelMonth}` : '',
-      `Travelers: ${formData.travelers}`,
+      formData.email ? `Email: ${formData.email}` : '',
       formData.message ? `Message: ${formData.message}` : '',
     ].filter(Boolean);
 
     openWhatsApp(inquiryLines.join('\n'));
   };
-
-  const activePackage =
-    durationCollections.find((item) => item.key === activePackageKey) ??
-    durationCollections[0];
 
   return (
     <div className="app">
@@ -426,326 +470,286 @@ function App() {
         }
       />
 
-      <section id="about" className="section brand-section">
-        <div className="container brand-shell">
-          <article className="brand-copy">
+      <section id="about" className="section scoot-intro-section">
+        <div className="container scoot-intro-shell">
+          <div className="scoot-intro-copy">
             <span className="eyebrow">Scoot Vacations</span>
-            <h2>Trips that stay easy, affordable, and worth remembering.</h2>
+            <h2>Seamless trips with a memory-first edge.</h2>
             <p>
-              Scoot handles curated packages, college IV plans, resort bookings,
-              bus bookings, and full trip coordination without making the experience
-              feel heavy. The point is simple: better travel, less friction.
+              Affordable travel planning, group-friendly routes, and a professional
+              videographer built into the experience.
             </p>
+          </div>
 
-            <div className="brand-stats">
-              {aboutStats.map((item) => (
-                <div key={item.label} className="brand-stat">
-                  <strong>{item.value}</strong>
-                  <span>{item.label}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="brand-actions">
+          <div className="scoot-intro-side">
+            <p>
+              Scoot handles the planning, the bookings, and the movement, so the trip
+              feels lighter from the first message.
+            </p>
+            <div className="scoot-intro-actions">
               <button
                 type="button"
                 className="btn btn-primary"
                 onClick={() =>
                   openWhatsApp(
-                    'Hello Scoot Vacations, I want help choosing the right package for my trip.'
+                    'Hello Scoot Vacations, I want help planning my next trip.'
                   )
                 }
               >
                 <MessageCircle size={18} />
                 Start on WhatsApp
               </button>
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={() => scrollToSection('#packages')}
-              >
-                Explore Packages
-              </button>
+              <a href={guidePath} download className="btn btn-outline">
+                <Download size={18} />
+                Get Trip Guide
+              </a>
             </div>
-
-            <div className="brand-services">
-              {serviceLines.map((service) => (
-                <span key={service} className="brand-service-pill">
-                  {service}
-                </span>
-              ))}
-            </div>
-          </article>
-
-          <aside
-            className="brand-feature-card"
-            style={{ '--brand-image': `url(${imagePaths.resortStay})` }}
-          >
-            <div className="brand-feature-surface">
-              <span className="story-label">Included on selected trips</span>
-              <h3>Complimentary videographer</h3>
-              <p>
-                The road feels better when the memories are captured without extra planning
-                from your side.
-              </p>
-            </div>
-          </aside>
+          </div>
         </div>
 
-        <div className="container brand-benefits">
-          {reasons.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <article key={item.title} className="brand-benefit-card">
-                <div className="brand-benefit-icon">
-                  <Icon size={18} />
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            );
-          })}
-        </div>
-
-        <div className="container brand-contact-band">
-          {contactNumbers.map((item) => (
-            <a key={item.label} href={item.href} className="brand-contact-chip">
-              <Phone size={16} />
-              {item.label}
-            </a>
+        <div className="container scoot-intro-strip">
+          {serviceLines.map((service) => (
+            <span key={service}>{service}</span>
           ))}
-          <a href="mailto:scootvacations@gmail.com" className="brand-contact-chip">
-            <Mail size={16} />
-            scootvacations@gmail.com
-          </a>
-          <a
-            href={instagramUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="brand-contact-chip"
-          >
-            <Camera size={16} />
-            @scoot_vacations
-          </a>
         </div>
       </section>
 
-      <section id="packages" className="section explorer-section">
-        <div className="container explorer-head">
+      <section className="section scoot-services-section">
+        <div className="container scoot-section-head">
           <div>
-            <span className="eyebrow">Packages</span>
-            <h2>Choose the time first. Scoot shapes the route around it.</h2>
+            <span className="eyebrow">Services</span>
+            <h2>What Scoot takes care of.</h2>
+          </div>
+        </div>
+
+        <div className="container scoot-services-grid">
+          {serviceShowcase.map((service, index) => (
+            <article
+              key={service.title}
+              className={`scoot-service-panel${index === 0 ? ' scoot-service-panel-featured' : ''}`}
+            >
+              <span>{service.title}</span>
+              <p>{service.note}</p>
+
+              {index === 0 ? (
+                <div className="scoot-service-tags">
+                  {durationCollections.map((item) => (
+                    <strong key={item.key}>{item.tab}</strong>
+                  ))}
+                  <strong>North India</strong>
+                </div>
+              ) : null}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section scoot-choose-section">
+        <div className="container scoot-choose-shell">
+          <div className="scoot-choose-copy">
+            <span className="eyebrow">Why Choose Scoot</span>
+            <h2>Useful reasons, not travel-industry noise.</h2>
+            <p>
+              Scoot works best when the trip needs to feel organized, affordable,
+              social, and genuinely worth remembering after it ends.
+            </p>
+          </div>
+
+          <div className="scoot-choose-list">
+            {whyScootReasons.map((item, index) => (
+              <article key={item.title} className="scoot-choose-row">
+                <span>0{index + 1}</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section scoot-memory-section">
+        <div className="container scoot-memory-shell">
+          <div className="scoot-memory-media">
+            <img src={imagePaths.groupTrip} alt="Scoot group trip memory" loading="lazy" />
+          </div>
+
+          <div className="scoot-memory-copy">
+            <span className="eyebrow">Signature Difference</span>
+            <h2>Some trips are planned. Scoot trips are also preserved.</h2>
+            <p>
+              The built-in videographer is not a small add-on. It changes how the trip
+              feels because people can stay present while the memory is being captured.
+            </p>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() =>
+                handleInquiryShortcut(
+                  'Package Inquiry',
+                  '',
+                  'I want to know more about trips with the complimentary videographer.'
+                )
+              }
+            >
+              Ask About the Videographer
+              <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="packages" className="section scoot-journeys-section">
+        <div className="container scoot-section-head scoot-section-head-split">
+          <div>
+            <span className="eyebrow">Journey Types</span>
+            <h2>Different moods. Different group energy. Same Scoot approach.</h2>
           </div>
           <p>
-            Instead of a wall of package cards, use the duration to narrow the trip
-            quickly and move straight into the routes that fit.
+            The trip style can change. The ease, support, and memory-first thinking
+            should not.
           </p>
         </div>
 
-        <div className="container explorer-shell">
-          <div className="explorer-tabs" role="tablist" aria-label="Package durations">
-            {durationCollections.map((item) => (
-              <button
-                key={item.key}
-                type="button"
-                role="tab"
-                aria-selected={activePackage.key === item.key}
-                className={`explorer-tab${activePackage.key === item.key ? ' explorer-tab-active' : ''}`}
-                onClick={() => setActivePackageKey(item.key)}
-              >
-                <strong>{item.tab}</strong>
-                <span>{item.title}</span>
-              </button>
-            ))}
+        <div className="container scoot-journeys-grid">
+          {experienceBlocks.map((item, index) => (
+            <article
+              key={item.title}
+              className={`scoot-journey-card${index === 0 ? ' scoot-journey-card-large' : ''}`}
+            >
+              <img src={item.image} alt={item.title} loading="lazy" />
+              <div className="scoot-journey-overlay">
+                <h3>{item.title}</h3>
+                <p>{item.note}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div id="north-india" className="container scoot-north-band">
+          <div className="scoot-north-band-copy">
+            <span className="story-label">North India Collection</span>
+            <h3>Golden Triangle, Kashmir, Ladakh, and longer landmark-led circuits.</h3>
           </div>
 
-          <article
-            className="explorer-panel"
-            style={{
-              '--package-accent': activePackage.accent,
-              '--package-wash': activePackage.wash,
-            }}
-          >
-            <div className="explorer-copy">
-              <span className="explorer-badge">{activePackage.tab}</span>
-              <h3>{activePackage.title}</h3>
-              <p>{activePackage.description}</p>
-
-              <div className="explorer-meta">
-                <div className="explorer-meta-item">
-                  <strong>{activePackage.routes.length}</strong>
-                  <span>route options</span>
-                </div>
-                <div className="explorer-meta-item">
-                  <strong>Best for</strong>
-                  <span>{activePackage.focus}</span>
-                </div>
-              </div>
-
-              <div className="explorer-route-cloud">
-                {activePackage.routes.slice(0, 10).map((route) => (
-                  <button
-                    key={route}
-                    type="button"
-                    className="explorer-route-chip"
-                    onClick={() =>
-                      handleInquiryShortcut(
-                        activePackage.interest,
-                        route,
-                        `I want details for ${route}.`
-                      )
-                    }
-                  >
-                    {route}
-                  </button>
-                ))}
-                {activePackage.routes.length > 10 ? (
-                  <span className="explorer-route-more">
-                    +{activePackage.routes.length - 10} more in the guide
-                  </span>
-                ) : null}
-              </div>
-
-              <div className="explorer-actions">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() =>
-                    handleInquiryShortcut(
-                      activePackage.interest,
-                      activePackage.title,
-                      activePackage.message
-                    )
-                  }
-                >
-                  Get Details
-                  <ArrowRight size={16} />
-                </button>
-                <a href={guidePath} download className="btn btn-outline">
-                  <Download size={18} />
-                  Trip Guide PDF
-                </a>
-              </div>
-            </div>
-
-            <div className="explorer-media">
-              <img src={activePackage.image} alt={activePackage.title} loading="lazy" />
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="north-india" className="section north-collection-section">
-        <div className="container north-collection-shell">
-          <article
-            className="north-collection-feature"
-            style={{ '--north-image': `url(${imagePaths.kashmirEscape})` }}
-          >
-            <div className="north-collection-overlay">
-              <span className="eyebrow eyebrow-light">North India</span>
-              <h2>Landmarks, valleys, and longer road moods.</h2>
-              <p>
-                Delhi circuits, Kashmir stays, and Ladakh-led roads sit in their own
-                lane for travelers who want a larger trip feeling from the start.
-              </p>
+          <div className="scoot-north-band-list">
+            {northIndiaPackages.map((item) => (
               <button
+                key={item.title}
                 type="button"
-                className="btn btn-soft"
+                className="scoot-north-chip"
                 onClick={() =>
                   handleInquiryShortcut(
                     'North India Package',
-                    '',
-                    'I want help choosing the right North India package.'
+                    item.title,
+                    `I want details for ${item.title}.`
                   )
                 }
               >
-                Plan North India
-                <ArrowRight size={16} />
+                {item.title}
               </button>
-            </div>
-          </article>
-
-          <div className="north-collection-list">
-            {northIndiaPackages.map((pkg) => (
-              <article key={pkg.title} className="north-collection-card">
-                <div className="north-collection-card-copy">
-                  <span>{pkg.subtitle}</span>
-                  <h3>{pkg.title}</h3>
-                  <p>{pkg.description}</p>
-                </div>
-                <button
-                  type="button"
-                  className="north-collection-link"
-                  onClick={() =>
-                    handleInquiryShortcut(
-                      'North India Package',
-                      pkg.title,
-                      `I want details for ${pkg.title}.`
-                    )
-                  }
-                >
-                  Ask for this route
-                  <ArrowRight size={16} />
-                </button>
-              </article>
             ))}
+            {northIndiaRoutes.map((route) => (
+              <button
+                key={route}
+                type="button"
+                className="scoot-north-chip scoot-north-chip-muted"
+                onClick={() =>
+                  handleInquiryShortcut(
+                    'North India Package',
+                    route,
+                    `I want details for ${route}.`
+                  )
+                }
+              >
+                {route}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <div className="north-collection-routes">
-              {northIndiaRoutes.map((route) => (
-                <button
-                  key={route}
-                  type="button"
-                  className="north-collection-route-chip"
-                  onClick={() =>
-                    handleInquiryShortcut(
-                      'North India Package',
-                      route,
-                      `I want details for ${route}.`
-                    )
-                  }
-                >
-                  {route}
-                </button>
-              ))}
+      <section className="section scoot-process-section">
+        <div className="container scoot-process-shell">
+          <span className="eyebrow">How It Works</span>
+          <div className="scoot-process-line">
+            {processSteps.map((step, index) => (
+              <div key={step} className="scoot-process-step">
+                <span>0{index + 1}</span>
+                <strong>{step}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section scoot-trust-section">
+        <div className="container scoot-section-head scoot-section-head-split">
+          <div>
+            <span className="eyebrow">Trust</span>
+            <h2>Designed for real travel decisions.</h2>
+          </div>
+          <p>
+            No fake numbers. No exaggerated claims. Just the kinds of trips people
+            actually ask Scoot to plan.
+          </p>
+        </div>
+
+        <div className="container scoot-trust-grid">
+          {trustSignals.map((item) => (
+            <article key={item} className="scoot-trust-card">
+              <p>{item}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section scoot-social-section">
+        <div className="container scoot-social-shell">
+          <div className="scoot-social-copy">
+            <span className="eyebrow eyebrow-light">Instagram</span>
+            <h2>Follow the road while it is still moving.</h2>
+            <p>
+              Scoot is a visual travel brand. Instagram is where the mood, people,
+              and memory-first side of the trips come alive.
+            </p>
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-outline scoot-social-button"
+            >
+              <Camera size={18} />
+              Follow @scoot_vacations
+            </a>
+          </div>
+
+          <div className="scoot-social-film">
+            <div className="scoot-social-frame scoot-social-frame-one">
+              <img src={imagePaths.groupTrip} alt="Scoot travel group moment" loading="lazy" />
+            </div>
+            <div className="scoot-social-frame scoot-social-frame-two">
+              <img src={imagePaths.coastalEscape} alt="Scoot travel scenery" loading="lazy" />
+            </div>
+            <div className="scoot-social-frame scoot-social-frame-three">
+              <img src={imagePaths.resortStay} alt="Scoot resort stay" loading="lazy" />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="contact" className="section connect-section">
-        <div className="container connect-shell">
-          <article className="connect-panel">
-            <span className="eyebrow">Contact</span>
-            <h2>Tell Scoot what kind of trip you want. The rest can get simpler from there.</h2>
+      <section id="contact" className="section scoot-cta-section">
+        <div className="container scoot-cta-shell">
+          <article className="scoot-cta-copy">
+            <span className="eyebrow">Plan With Scoot</span>
+            <h2>Tell Scoot the idea. The next trip can start from there.</h2>
             <p>
-              Use the direct numbers for a quick start, or send a short brief through
-              the form and continue on WhatsApp.
+              For a quick start, use WhatsApp or call directly. For a cleaner brief,
+              send the short form and Scoot will take it forward.
             </p>
 
-            <div className="connect-direct-list">
-              {contactNumbers.map((item) => (
-                <a key={item.label} href={item.href} className="connect-direct-item">
-                  <Phone size={18} />
-                  <strong>{item.label}</strong>
-                </a>
-              ))}
-              <a href="mailto:scootvacations@gmail.com" className="connect-direct-item">
-                <Mail size={18} />
-                <strong>scootvacations@gmail.com</strong>
-              </a>
-              <a
-                href={instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="connect-direct-item"
-              >
-                <Camera size={18} />
-                <strong>@scoot_vacations</strong>
-              </a>
-            </div>
-
-            <div className="connect-actions">
+            <div className="scoot-cta-actions">
               <a
                 href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
@@ -755,18 +759,30 @@ function App() {
                 <MessageCircle size={18} />
                 Chat on WhatsApp
               </a>
-              <a href={guidePath} download className="btn btn-outline">
-                <Download size={18} />
-                Download Guide
+              <a href={contactNumbers[0].href} className="btn btn-outline">
+                <Phone size={18} />
+                Call Scoot
+              </a>
+            </div>
+
+            <div className="scoot-cta-contact-list">
+              {contactNumbers.map((item) => (
+                <a key={item.label} href={item.href}>
+                  {item.label}
+                </a>
+              ))}
+              <a href="mailto:scootvacations@gmail.com">scootvacations@gmail.com</a>
+              <a href={instagramUrl} target="_blank" rel="noreferrer">
+                @scoot_vacations
               </a>
             </div>
           </article>
 
-          <article className="connect-form-card">
+          <article className="scoot-cta-form">
             <div className="contact-form-head">
               <span className="eyebrow">Quick inquiry</span>
               <h3>Send the basics</h3>
-              <p>Keep it short. Scoot can take the conversation forward from there.</p>
+              <p>Keep it short. Scoot can take it forward from here.</p>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -800,18 +816,6 @@ function App() {
 
               <div className="form-grid">
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Optional"
-                    value={formData.email}
-                    onChange={handleFieldChange}
-                  />
-                </div>
-
-                <div className="form-group">
                   <label htmlFor="interest">Package Type</label>
                   <select
                     id="interest"
@@ -827,60 +831,41 @@ function App() {
                     <option>North India Package</option>
                   </select>
                 </div>
-              </div>
-
-              <div className="form-grid">
                 <div className="form-group">
-                  <label htmlFor="destination">Destination / Package</label>
+                  <label htmlFor="email">Email</label>
                   <input
-                    id="destination"
-                    name="destination"
-                    type="text"
-                    placeholder="Munnar, Goa, Kashmir..."
-                    value={formData.destination}
-                    onChange={handleFieldChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="travelMonth">Travel Month</label>
-                  <input
-                    id="travelMonth"
-                    name="travelMonth"
-                    type="month"
-                    value={formData.travelMonth}
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Optional"
+                    value={formData.email}
                     onChange={handleFieldChange}
                   />
                 </div>
               </div>
 
-              <div className="form-grid form-grid-last">
-                <div className="form-group">
-                  <label htmlFor="travelers">Travelers</label>
-                  <select
-                    id="travelers"
-                    name="travelers"
-                    value={formData.travelers}
-                    onChange={handleFieldChange}
-                  >
-                    <option value="1">1 traveler</option>
-                    <option value="2">2 travelers</option>
-                    <option value="3-5">3 to 5 travelers</option>
-                    <option value="6+">6+ travelers</option>
-                  </select>
-                </div>
+              <div className="form-group">
+                <label htmlFor="destination">Destination / Trip Idea</label>
+                <input
+                  id="destination"
+                  name="destination"
+                  type="text"
+                  placeholder="Munnar, Goa, Kashmir..."
+                  value={formData.destination}
+                  onChange={handleFieldChange}
+                />
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="message">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="4"
-                    placeholder="Tell us dates, route, or trip style"
-                    value={formData.message}
-                    onChange={handleFieldChange}
-                  ></textarea>
-                </div>
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  placeholder="Tell us dates, route, or trip style"
+                  value={formData.message}
+                  onChange={handleFieldChange}
+                ></textarea>
               </div>
 
               <button className="btn btn-primary form-submit" type="submit">
@@ -892,9 +877,9 @@ function App() {
         </div>
       </section>
 
-      <footer className="footer minimal-footer">
-        <div className="container minimal-footer-shell">
-          <div className="minimal-footer-brand">
+      <footer className="footer scoot-footer">
+        <div className="container scoot-footer-shell">
+          <div className="scoot-footer-brand">
             <a
               href="#home"
               className="logo footer-logo"
@@ -907,10 +892,10 @@ function App() {
                 className="logo-image footer-logo-image"
               />
             </a>
-            <p>Affordable trips. Clear planning. Better memories on the road.</p>
+            <p>Affordable trips, cleaner planning, and better memories on the road.</p>
           </div>
 
-          <div className="minimal-footer-links">
+          <div className="scoot-footer-links">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -922,11 +907,16 @@ function App() {
             ))}
           </div>
 
-          <div className="minimal-footer-cta">
-            <a href={guidePath} download className="btn btn-outline footer-button">
-              <Download size={18} />
-              Trip Guide PDF
+          <div className="scoot-footer-meta">
+            <a href="mailto:scootvacations@gmail.com">scootvacations@gmail.com</a>
+            <a href={instagramUrl} target="_blank" rel="noreferrer">
+              @scoot_vacations
             </a>
+            {contactNumbers.map((item) => (
+              <a key={item.label} href={item.href}>
+                {item.label}
+              </a>
+            ))}
           </div>
         </div>
       </footer>
