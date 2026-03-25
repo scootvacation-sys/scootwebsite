@@ -233,8 +233,10 @@ function ScrollHero({
     smoothedProgressRef.current = settledProgress;
 
     const totalSequenceFrames = sequenceFrameUrls.length;
-    const frameFloat = settledProgress * (totalSequenceFrames - 1);
-    const frameIndex = Math.floor(frameFloat);
+    const displayProgress =
+      isCompact && settledProgress >= 0.96 ? 1 : settledProgress;
+    const frameFloat = displayProgress * (totalSequenceFrames - 1);
+    const frameIndex = Math.round(frameFloat);
     const currentLoadedIndex = findNearestLoadedIndex(
       loadedFramesRef.current,
       frameIndex,
