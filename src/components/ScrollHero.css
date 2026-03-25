@@ -452,6 +452,36 @@
   }
 }
 
+@media (max-width: 1360px) and (min-width: 761px) {
+  .scroll-cinema__content {
+    width: min(100% - 2.75rem, 74rem);
+  }
+
+  .scroll-cinema__intro {
+    top: clamp(8rem, 15vh, 10.2rem);
+    max-width: 29rem;
+  }
+
+  .scroll-cinema__support {
+    right: 0.4rem;
+    bottom: clamp(4.25rem, 10vh, 7rem);
+    max-width: 28rem;
+  }
+
+  .scroll-cinema__intro h1,
+  .scroll-cinema__support h2 {
+    font-size: clamp(3.7rem, 6.4vw, 5.8rem);
+  }
+
+  .scroll-cinema__support h2 {
+    max-width: 7.5ch;
+  }
+
+  .scroll-cinema__support p {
+    max-width: 22rem;
+  }
+}
+
 @media (max-width: 760px) {
   .scroll-cinema__mobile-copy h1 {
     font-size: clamp(3rem, 12.4vw, 4rem);

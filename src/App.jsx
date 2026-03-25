@@ -403,17 +403,6 @@ function App() {
             className="mobile-menu-panel"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mobile-menu-header">
-              <span>Menu</span>
-              <button
-                type="button"
-                className="mobile-menu-close"
-                aria-label="Close navigation menu"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <X size={18} />
-              </button>
-            </div>
             {navItems.map((item) => (
               <a
                 key={item.href}
