@@ -276,20 +276,61 @@
 }
 
 .scroll-cinema__mobile-shell {
-  width: min(100% - 1.8rem, 23.6rem);
+  width: min(100% - 1.4rem, 24.5rem);
   min-height: 100svh;
   margin: 0 auto;
-  padding: 5.85rem 0 2rem;
+  padding: 5.55rem 0 2rem;
   display: grid;
   align-content: start;
-  gap: 1.15rem;
+  gap: 0.95rem;
+}
+
+.scroll-cinema__mobile-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0 0.12rem;
+}
+
+.scroll-cinema__mobile-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
+    rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.scroll-cinema__mobile-stage {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    rgba(8, 19, 29, 0.58);
+  box-shadow:
+    0 30px 70px -44px rgba(2, 9, 18, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .scroll-cinema__mobile-media {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16 / 9.4;
-  border-radius: 1.85rem;
+  aspect-ratio: 16 / 10.6;
+  border-radius: 1.45rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
@@ -326,40 +367,169 @@
   inset: 0;
   z-index: 2;
   background:
-    linear-gradient(180deg, rgba(6, 17, 28, 0.06), transparent 30%),
-    linear-gradient(180deg, transparent 68%, rgba(6, 17, 28, 0.2));
+    linear-gradient(180deg, rgba(6, 17, 28, 0.04), transparent 30%),
+    linear-gradient(180deg, transparent 56%, rgba(6, 17, 28, 0.58));
   pointer-events: none;
+}
+
+.scroll-cinema__mobile-caption {
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.85rem;
+  z-index: 3;
+  display: grid;
+  gap: 0.25rem;
+  max-width: 14rem;
+}
+
+.scroll-cinema__mobile-caption span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scroll-cinema__mobile-caption strong {
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 1rem;
+  line-height: 1.28;
+}
+
+.scroll-cinema__mobile-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.scroll-cinema__mobile-metric {
+  min-width: 0;
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.8rem 0.75rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.scroll-cinema__mobile-metric strong {
+  color: white;
+  font-size: 0.94rem;
+  line-height: 1.1;
+}
+
+.scroll-cinema__mobile-metric span {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.68rem;
+  line-height: 1.3;
 }
 
 .scroll-cinema__mobile-copy {
   display: grid;
   align-content: start;
   gap: 0;
-  padding: 0 0.3rem;
+  padding: 1.1rem 1rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.7rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03)),
+    rgba(7, 18, 29, 0.54);
+  box-shadow:
+    0 24px 64px -42px rgba(2, 9, 18, 0.86),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.scroll-cinema__mobile-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2rem;
+  padding: 0.45rem 0.78rem;
+  border-radius: 999px;
+  background: rgba(20, 116, 141, 0.18);
+  border: 1px solid rgba(109, 188, 209, 0.22);
+  color: rgba(220, 244, 250, 0.92);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .scroll-cinema__mobile-copy h1 {
-  max-width: 6.4ch;
-  margin-top: 0.85rem;
+  max-width: 6.2ch;
+  margin-top: 0.95rem;
   color: white;
-  font-size: clamp(3.2rem, 13vw, 4.6rem);
-  line-height: 0.9;
+  font-size: clamp(3rem, 12.4vw, 4.2rem);
+  line-height: 0.92;
   letter-spacing: -0.08em;
   text-wrap: balance;
 }
 
 .scroll-cinema__mobile-copy p {
-  max-width: 18.5rem;
+  max-width: 18.8rem;
   margin-top: 1rem;
   color: rgba(245, 248, 250, 0.8);
-  font-size: 1.02rem;
-  line-height: 1.55;
+  font-size: 0.98rem;
+  line-height: 1.58;
+}
+
+.scroll-cinema__mobile-progress {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1.05rem;
+}
+
+.scroll-cinema__mobile-progress > span {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scroll-cinema__mobile-progress-track {
+  position: relative;
+  height: 0.42rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.scroll-cinema__mobile-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f2a44b, #59b8d9 72%, #ffffff);
+  box-shadow: 0 0 18px rgba(89, 184, 217, 0.32);
+}
+
+.scroll-cinema__mobile-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.scroll-cinema__mobile-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.45rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.77rem;
+  font-weight: 700;
 }
 
 .scroll-cinema__mobile-actions {
   display: grid;
   gap: 0.85rem;
-  margin-top: 1.2rem;
+  margin-top: 1.15rem;
 }
 
 .scroll-cinema__mobile-actions .scroll-cinema__cta {
@@ -370,8 +540,8 @@
 
 .scroll-cinema__mobile-loading {
   position: absolute;
-  left: 0.95rem;
-  bottom: 0.95rem;
+  right: 0.8rem;
+  top: 0.8rem;
   z-index: 3;
   display: inline-flex;
   align-items: center;
@@ -411,17 +581,17 @@
 
 @media (max-width: 760px) {
   .scroll-cinema__mobile-shell {
-    width: min(100% - 1.55rem, 22.9rem);
-    padding-top: 5.45rem;
+    width: min(100% - 1.3rem, 23.2rem);
+    padding-top: 5.3rem;
   }
 
   .scroll-cinema__mobile-copy h1 {
-    font-size: clamp(2.95rem, 12.4vw, 4rem);
+    font-size: clamp(2.85rem, 12vw, 3.8rem);
   }
 
   .scroll-cinema__mobile-copy p {
-    max-width: 17.25rem;
-    font-size: 0.98rem;
+    max-width: 17rem;
+    font-size: 0.95rem;
   }
 
   .scroll-cinema__label {
@@ -438,24 +608,42 @@
 
 @media (max-width: 560px) {
   .scroll-cinema__mobile-shell {
-    width: min(100% - 1.4rem, 21.7rem);
-    padding-top: 5.25rem;
-    gap: 0.95rem;
+    width: min(100% - 1.1rem, 21.9rem);
+    padding-top: 5.15rem;
+    gap: 0.85rem;
+  }
+
+  .scroll-cinema__mobile-stage {
+    padding: 0.62rem;
+    border-radius: 1.7rem;
   }
 
   .scroll-cinema__mobile-media {
-    aspect-ratio: 16 / 9.9;
-    border-radius: 1.6rem;
+    aspect-ratio: 16 / 11.2;
+    border-radius: 1.3rem;
+  }
+
+  .scroll-cinema__mobile-metrics {
+    gap: 0.42rem;
+  }
+
+  .scroll-cinema__mobile-metric {
+    padding: 0.72rem 0.62rem 0.66rem;
+    border-radius: 0.95rem;
   }
 
   .scroll-cinema__mobile-copy h1 {
-    max-width: 5.9ch;
-    font-size: clamp(2.8rem, 12.8vw, 3.65rem);
+    max-width: 5.8ch;
+    font-size: clamp(2.6rem, 12.5vw, 3.4rem);
   }
 
   .scroll-cinema__mobile-copy p {
-    max-width: 15.2rem;
-    font-size: 0.94rem;
+    max-width: 15rem;
+    font-size: 0.91rem;
+  }
+
+  .scroll-cinema__mobile-copy {
+    padding: 0.95rem 0.88rem 0.9rem;
   }
 
   .scroll-cinema__cta {
@@ -465,9 +653,15 @@
   }
 
   .scroll-cinema__mobile-loading {
-    left: 0.75rem;
-    bottom: 0.75rem;
+    right: 0.7rem;
+    top: 0.7rem;
     padding: 0.55rem 0.68rem;
     gap: 0.45rem;
+  }
+
+  .scroll-cinema__mobile-caption {
+    left: 0.78rem;
+    right: 0.78rem;
+    bottom: 0.78rem;
   }
 }

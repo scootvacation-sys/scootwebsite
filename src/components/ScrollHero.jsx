@@ -101,6 +101,18 @@ const heroCopy = {
     'Choose the package, message Scoot, and leave the rest to the journey.',
 };
 
+const compactMetrics = [
+  { value: '1-4 Days', label: 'Trip lengths' },
+  { value: 'Groups', label: 'Friends and family' },
+  { value: 'Direct', label: 'WhatsApp planning' },
+];
+
+const compactPills = [
+  'Budget-friendly routes',
+  'Hotel and transport support',
+  'Selected departures',
+];
+
 const renderHeadlineWithAccent = (text, accentWord) => {
   if (!accentWord || !text.includes(accentWord)) {
     return text;
@@ -427,37 +439,76 @@ function ScrollHero({
       >
         {isCompact ? (
           <div className="scroll-cinema__mobile-shell">
-            <div className="scroll-cinema__mobile-media">
-              <div className="scroll-cinema__mobile-visual" aria-hidden="true">
-                <img
-                  src={sequenceFrameUrls[0]}
-                  alt=""
-                  className={`scroll-cinema__poster${
-                    sequenceReady ? ' scroll-cinema__poster--hidden' : ''
-                  }`}
-                />
-                <img
-                  ref={primaryFrameRef}
-                  alt=""
-                  className={`scroll-cinema__sequence${
-                    sequenceReady ? ' is-ready' : ''
-                  }`}
-                />
-                <div className="scroll-cinema__mobile-veil"></div>
+            <div className="scroll-cinema__mobile-topbar">
+              <span className="scroll-cinema__label">{copy.eyebrow}</span>
+              <span className="scroll-cinema__mobile-status">Scroll preview</span>
+            </div>
+
+            <div className="scroll-cinema__mobile-stage">
+              <div className="scroll-cinema__mobile-media">
+                <div className="scroll-cinema__mobile-visual" aria-hidden="true">
+                  <img
+                    src={sequenceFrameUrls[0]}
+                    alt=""
+                    className={`scroll-cinema__poster${
+                      sequenceReady ? ' scroll-cinema__poster--hidden' : ''
+                    }`}
+                  />
+                  <img
+                    ref={primaryFrameRef}
+                    alt=""
+                    className={`scroll-cinema__sequence${
+                      sequenceReady ? ' is-ready' : ''
+                    }`}
+                  />
+                  <div className="scroll-cinema__mobile-veil"></div>
+                </div>
+
+                <div className="scroll-cinema__mobile-caption">
+                  <span>Route preview</span>
+                  <strong>Warm departures with a quieter, cleaner hero.</strong>
+                </div>
+
+                {!loadingState.ready ? (
+                  <div className="scroll-cinema__mobile-loading">
+                    <span>Loading journey</span>
+                    <strong>{loadingPercent}%</strong>
+                  </div>
+                ) : null}
               </div>
 
-              {!loadingState.ready ? (
-                <div className="scroll-cinema__mobile-loading">
-                  <span>Loading journey</span>
-                  <strong>{loadingPercent}%</strong>
-                </div>
-              ) : null}
+              <div className="scroll-cinema__mobile-metrics">
+                {compactMetrics.map((item) => (
+                  <div key={item.label} className="scroll-cinema__mobile-metric">
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="scroll-cinema__mobile-copy">
-              <span className="scroll-cinema__label">{copy.eyebrow}</span>
+              <span className="scroll-cinema__mobile-kicker">
+                Premium road trips from Kerala
+              </span>
               <h1>{renderHeadlineWithAccent(copy.headline, copy.headlineAccent)}</h1>
               <p>{copy.supportingLine}</p>
+
+              <div className="scroll-cinema__mobile-progress">
+                <span>Route mood</span>
+                <div className="scroll-cinema__mobile-progress-track">
+                  <span style={{ width: `${Math.max(uiProgress * 100, 18)}%` }}></span>
+                </div>
+              </div>
+
+              <div className="scroll-cinema__mobile-pill-row">
+                {compactPills.map((item) => (
+                  <span key={item} className="scroll-cinema__mobile-pill">
+                    {item}
+                  </span>
+                ))}
+              </div>
+
               <div className="scroll-cinema__mobile-actions">
                 <button
                   type="button"
