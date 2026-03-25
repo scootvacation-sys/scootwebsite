@@ -1,4 +1,4 @@
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ScrollHero from './components/ScrollHero';
@@ -443,13 +443,17 @@ function App() {
 
               <button
                 type="button"
-                className="nav-menu-toggle"
+                className={`nav-menu-toggle${isNavOpen ? ' is-open' : ''}`}
                 aria-expanded={isNavOpen}
                 aria-controls="mobile-nav"
                 aria-label={isNavOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 onClick={() => setIsNavOpen((open) => !open)}
               >
-                {isNavOpen ? <X size={18} /> : <Menu size={18} />}
+                <span className="nav-menu-toggle-glyph" aria-hidden="true">
+                  <span className="nav-menu-toggle-bar nav-menu-toggle-bar--top" />
+                  <span className="nav-menu-toggle-bar nav-menu-toggle-bar--middle" />
+                  <span className="nav-menu-toggle-bar nav-menu-toggle-bar--bottom" />
+                </span>
               </button>
             </div>
           </div>
