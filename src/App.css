@@ -736,6 +736,8 @@ main {
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.12em;
+  line-height: 1;
+  padding-top: 0.36rem;
   transition: color 180ms ease;
 }
 
@@ -1801,8 +1803,12 @@ main {
     gap: 0.55rem 1rem;
   }
 
+  .services-list {
+    padding-top: 0.45rem;
+  }
+
   .service-row:first-child {
-    padding-top: 1.45rem;
+    padding-top: 1rem;
   }
 
   .service-visual {

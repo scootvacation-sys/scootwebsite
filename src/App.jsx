@@ -340,7 +340,9 @@ function App() {
         return;
       }
 
-      const triggerLine = (window.innerHeight || 1) * 0.56;
+      const viewportHeight = window.innerHeight || 1;
+      const triggerLine =
+        viewportHeight * (window.innerWidth <= 760 ? 0.78 : 0.56);
       let nextIndex = -1;
 
       rows.forEach((row, index) => {
