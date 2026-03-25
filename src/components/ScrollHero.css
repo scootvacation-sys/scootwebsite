@@ -464,21 +464,45 @@
 
   .scroll-cinema__support {
     right: 0.4rem;
-    bottom: clamp(4.25rem, 10vh, 7rem);
-    max-width: 28rem;
+    bottom: clamp(2.25rem, 6vh, 4rem);
+    max-width: 22rem;
   }
 
   .scroll-cinema__intro h1,
   .scroll-cinema__support h2 {
-    font-size: clamp(3.7rem, 6.4vw, 5.8rem);
+    font-size: clamp(3.1rem, 4.9vw, 4.6rem);
   }
 
   .scroll-cinema__support h2 {
-    max-width: 7.5ch;
+    max-width: 6.4ch;
+    line-height: 0.94;
   }
 
   .scroll-cinema__support p {
-    max-width: 22rem;
+    max-width: 18rem;
+    font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 761px) {
+  .scroll-cinema__content {
+    width: min(100% - 2.25rem, 64rem);
+  }
+
+  .scroll-cinema__support {
+    right: 0;
+    bottom: 1.8rem;
+    max-width: 18rem;
+  }
+
+  .scroll-cinema__support h2 {
+    max-width: 6.1ch;
+    font-size: clamp(2.7rem, 4.6vw, 3.9rem);
+  }
+
+  .scroll-cinema__support p {
+    max-width: 16rem;
+    font-size: 0.92rem;
   }
 }
 
