@@ -17,7 +17,7 @@ const instagramUrl =
 const navLinks = [
   { label: 'Services', target: '#services' },
   { label: 'Why Scoot', target: '#why-scoot' },
-  { label: 'Instagram', target: '#instagram' },
+  { label: 'Gallery', target: '#instagram' },
   { label: 'Contact', target: '#contact' },
 ];
 
