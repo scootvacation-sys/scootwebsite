@@ -1,4 +1,9 @@
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  Mail,
+  MessageCircle,
+  Phone,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ScrollHero from './components/ScrollHero';
@@ -73,11 +78,14 @@ const reasons = [
 ];
 
 const contactLinks = [
-  { label: 'scootvacations@gmail.com', href: 'mailto:scootvacations@gmail.com' },
-  { label: '+91 94464 82881', href: 'tel:+919446482881' },
-  { label: '+91 95263 72881', href: 'tel:+919526372881' },
-  { label: '+91 95441 21932', href: 'tel:+919544121932' },
-  { label: '@scoot_vacations', href: instagramUrl, external: true },
+  {
+    label: 'scootvacations@gmail.com',
+    href: 'mailto:scootvacations@gmail.com',
+    icon: Mail,
+  },
+  { label: '+91 94464 82881', href: 'tel:+919446482881', icon: Phone },
+  { label: '+91 95263 72881', href: 'tel:+919526372881', icon: Phone },
+  { label: '+91 95441 21932', href: 'tel:+919544121932', icon: Phone },
 ];
 
 const memorySequence = {
@@ -118,11 +126,15 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [cursorEnabled, setCursorEnabled] = useState(false);
+  const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
+  const [activeWhyIndex, setActiveWhyIndex] = useState(-1);
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
   const navStackRef = useRef(null);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
+  const serviceRowRefs = useRef([]);
+  const whyRowRefs = useRef([]);
   const cursorRingRef = useRef(null);
 
   useEffect(() => {
@@ -285,6 +297,79 @@ function App() {
     return () => {
       mediaQuery.removeEventListener('change', handleMediaChange);
       disableCursor();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    let frameId = 0;
+
+    const syncActiveServiceIndex = () => {
+      const rows = serviceRowRefs.current.filter(Boolean);
+      if (!rows.length) {
+        return;
+      }
+
+      const triggerLine = (window.innerHeight || 1) * 0.56;
+      let nextIndex = -1;
+
+      rows.forEach((row, index) => {
+        const rect = row.getBoundingClientRect();
+
+        if (rect.top <= triggerLine) {
+          nextIndex = index;
+        }
+      });
+
+      setActiveServiceIndex((current) =>
+        current !== nextIndex ? nextIndex : current
+      );
+    };
+
+    const syncActiveWhyIndex = () => {
+      const rows = whyRowRefs.current.filter(Boolean);
+      if (!rows.length) {
+        return;
+      }
+
+      const triggerLine = (window.innerHeight || 1) * 0.56;
+      let nextIndex = -1;
+
+      rows.forEach((row, index) => {
+        const rect = row.getBoundingClientRect();
+
+        if (rect.top <= triggerLine) {
+          nextIndex = index;
+        }
+      });
+
+      setActiveWhyIndex((current) => (current !== nextIndex ? nextIndex : current));
+    };
+
+    const requestSync = () => {
+      if (!frameId) {
+        frameId = window.requestAnimationFrame(() => {
+          frameId = 0;
+          syncActiveServiceIndex();
+          syncActiveWhyIndex();
+        });
+      }
+    };
+
+    syncActiveServiceIndex();
+    syncActiveWhyIndex();
+    window.addEventListener('scroll', requestSync, { passive: true });
+    window.addEventListener('resize', requestSync);
+
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', requestSync);
+      window.removeEventListener('resize', requestSync);
     };
   }, []);
 
@@ -563,11 +648,28 @@ function App() {
                 Packages, group departures, stays, transport, and custom planning
                 arranged with less clutter and more control.
               </p>
+              <a
+                href="/scoot-brochure.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="services-brochure-link"
+              >
+                Download brochure
+                <ArrowRight size={15} />
+              </a>
             </div>
 
             <div className="services-list">
               {services.map((service, index) => (
-                <article key={service.title} className="service-row">
+                <article
+                  key={service.title}
+                  ref={(node) => {
+                    serviceRowRefs.current[index] = node;
+                  }}
+                  className={`service-row${
+                    index <= activeServiceIndex ? ' is-active' : ''
+                  }`}
+                >
                   <span className="service-index">0{index + 1}</span>
                   <div className="service-visual">
                     <img
@@ -636,8 +738,50 @@ function App() {
         <section id="why-scoot" className="section why-section">
           <div className="container why-shell">
             <div className="why-intro">
-              <div className="section-kicker">Why Scoot</div>
-              <h2>Useful reasons to trust the trip.</h2>
+              <div className="section-kicker why-kicker" aria-label="Why Scoot">
+                <span>Why</span>
+                <svg
+                  aria-hidden="true"
+                  className={`why-kicker-logo${
+                    activeWhyIndex >= 1 ? ' is-accented' : ''
+                  }`}
+                  viewBox="0 110 346 140"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M24.72,179.3c-10.46-9.93,6.71-16.37,20.79-12.88,0,0,0-.13-2.68-18.51-19.86,2.01-43.87,3.76-42.79,28.71,1.07,27.1,46.42,15.56,41.05,40.11-6.31,10.87-21.6,7.92-31.12,7.11l1.88,18.65c23.61.54,50.98-3.76,49.91-27.1-1.34-29.65-20.39-23.75-37.03-36.09"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M102.82,213.37c-13.42,0-16.77-17.71-12.74-26.83,8.18-18.51,26.56-10.73,34.75-6.04l-.4-20.79c-14.49-7.65-32.87-10.6-45.88.94-8.99,7.78-12.88,22.94-12.88,34.07,0,36.89,35.95,50.85,67.35,28.84l-9.12-19.32c-5.23,3.09-13.42,9.12-21.06,9.12"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M170.7,147.91c-29.38,0-39.71,21.47-39.44,48.97.27,25.49,18.65,37.16,37.03,36.22,18.65-1.07,37.16-15.16,37.43-41.32.13-21.73-9.79-43.87-35.01-43.87M168.56,211.63c-9.66,0-16.37-7.38-16.37-18.65.27-13.28,6.57-23.61,17.04-23.61,22.4,2.82,21.2,42.26-.67,42.26"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M248.44,156.33c-26.48,0-35.79,19.34-35.54,44.13.24,22.97,16.8,33.49,33.37,32.64,16.81-.97,33.49-13.66,33.73-37.24.12-19.59-8.83-39.53-31.55-39.53M246.5,213.76c-8.7,0-14.75-6.65-14.75-16.81.24-11.97,5.92-21.28,15.35-21.28,20.19,2.54,19.1,38.08-.6,38.08"
+                  />
+                  <polygon
+                    fill="currentColor"
+                    points="340.57 151.93 322.36 151.1 322.6 130.28 305.01 125.41 302.58 150.2 281.81 149.25 280.73 170.44 299.52 170.85 298.71 232.96 322.46 232.29 322.05 172.46 338.96 173.4 340.57 151.93"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M252.14,148.1l-10.74-5.42-5.92,2.24.1.02c-.06,0-.11.01-.17.02l3.12-2.73c-12.78-13.67-24.81-35.05-24.81-35.05-1.01,20.5,9.15,38.27,11.13,41.52-5.81,3.95-12.74,11.15-13.6,25.29,0,0,5.53-28.05,40.93-25.87,0,0-.01,0-.03-.01"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M234.06,113.62s-4.23,6.52-5.29,12.1l8.97,12.54s-3.4-8.84-3.68-24.64"
+                  />
+                </svg>
+              </div>
+              <h2>
+                Useful reasons to trust the trip
+                <span className="why-title-dot">.</span>
+              </h2>
               <p>
                 The experience stays simple, supportive, and worth choosing from
                 the first enquiry onward.
@@ -646,7 +790,13 @@ function App() {
 
             <div className="why-list">
               {reasons.map((reason, index) => (
-                <article key={reason.title} className="why-row">
+                <article
+                  key={reason.title}
+                  ref={(node) => {
+                    whyRowRefs.current[index] = node;
+                  }}
+                  className={`why-row${index <= activeWhyIndex ? ' is-active' : ''}`}
+                >
                   <span className="why-row-index">0{index + 1}</span>
                   <h3>{reason.title}</h3>
                   <p>{reason.description}</p>
@@ -713,7 +863,10 @@ function App() {
                 <div className="section-kicker section-kicker-light">
                   Plan With Scoot
                 </div>
-                <h2>Start the trip with one clear message.</h2>
+                <h2>
+                  Start the trip with one clear{' '}
+                  <span className="contact-title-accent">message.</span>
+                </h2>
                 <p>
                   Reach out for routes, dates, group plans, stays, or a custom trip
                   idea. Scoot can take it forward from there.
@@ -726,28 +879,35 @@ function App() {
                     rel="noreferrer"
                     className="btn btn-primary"
                   >
+                    <MessageCircle size={18} strokeWidth={2.1} />
                     Chat on WhatsApp
                   </a>
                   <a
                     href="mailto:scootvacations@gmail.com"
                     className="btn btn-outline contact-outline"
                   >
+                    <Mail size={18} strokeWidth={2.1} />
                     Email Scoot
                   </a>
                 </div>
               </div>
 
               <div className="contact-details">
-                {contactLinks.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.external ? '_blank' : undefined}
-                    rel={item.external ? 'noreferrer' : undefined}
-                  >
-                    {item.label}
-                  </a>
-                ))}
+                {contactLinks.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noreferrer' : undefined}
+                    >
+                      <Icon size={18} strokeWidth={2.1} aria-hidden="true" />
+                      <span>{item.label}</span>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -777,7 +937,6 @@ function App() {
           <div className="footer-main">
             <div className="footer-copy-block">
               <div className="section-kicker section-kicker-light">Scoot Vacations</div>
-              <p className="footer-title">Trips easier to plan. Better to remember.</p>
               <p className="footer-copy">
                 Tour packages, group departures, stays, and support arranged with a
                 clearer hand from the first message onward.
