@@ -287,10 +287,16 @@ function ScrollHero({
       return;
     }
 
+    const mobileCatchUp =
+      targetProgressRef.current > 0.9
+        ? 0.58
+        : targetProgressRef.current > 0.78
+          ? 0.38
+          : 0.24;
     const nextProgress = lerp(
       smoothedProgressRef.current,
       targetProgressRef.current,
-      isCompact ? 0.24 : 0.14
+      isCompact ? mobileCatchUp : 0.14
     );
     const settledProgress =
       Math.abs(nextProgress - targetProgressRef.current) < 0.0008
@@ -301,7 +307,11 @@ function ScrollHero({
 
     const totalSequenceFrames = sequenceFrameUrls.length;
     const displayProgress =
-      isCompact && settledProgress >= 0.96 ? 1 : settledProgress;
+      isCompact && targetProgressRef.current >= 0.985
+        ? 1
+        : isCompact && settledProgress >= 0.96
+          ? 1
+          : settledProgress;
     const frameFloat = displayProgress * (totalSequenceFrames - 1);
     const frameIndex = Math.round(frameFloat);
     const currentLoadedIndex = findNearestLoadedIndex(
