@@ -748,7 +748,7 @@ function App() {
                 <svg
                   aria-hidden="true"
                   className={`why-kicker-logo${
-                    activeWhyIndex >= 1 ? ' is-accented' : ''
+                    activeWhyIndex >= 0 ? ' is-accented' : ''
                   }`}
                   viewBox="0 110 346 140"
                   xmlns="http://www.w3.org/2000/svg"

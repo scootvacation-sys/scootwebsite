@@ -1801,6 +1801,10 @@ main {
     gap: 0.55rem 1rem;
   }
 
+  .service-row:first-child {
+    padding-top: 1.45rem;
+  }
+
   .service-visual {
     grid-column: 2;
     max-width: 14rem;
