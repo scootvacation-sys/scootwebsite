@@ -120,6 +120,7 @@ function App() {
   const [cursorEnabled, setCursorEnabled] = useState(false);
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
+  const navStackRef = useRef(null);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
   const cursorRingRef = useRef(null);
@@ -157,6 +158,32 @@ function App() {
 
     return () => {
       document.body.classList.remove('mobile-nav-open');
+    };
+  }, [isNavOpen]);
+
+  useEffect(() => {
+    if (!isNavOpen) {
+      return undefined;
+    }
+
+    const handlePointerDownOutside = (event) => {
+      if (!navStackRef.current?.contains(event.target)) {
+        setIsNavOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsNavOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDownOutside);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDownOutside);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [isNavOpen]);
 
@@ -374,7 +401,7 @@ function App() {
   return (
     <div className="app">
       <nav className={`navbar${isScrolled ? ' navbar-scrolled' : ''}`}>
-        <div className="nav-stack">
+        <div ref={navStackRef} className="nav-stack">
           <div className="nav-shell">
             <button
               type="button"
