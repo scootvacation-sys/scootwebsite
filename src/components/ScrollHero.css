@@ -321,7 +321,7 @@
 .scroll-cinema__mobile-visual .scroll-cinema__poster,
 .scroll-cinema__mobile-visual .scroll-cinema__sequence {
   object-fit: cover;
-  object-position: 66% 50%;
+  object-position: 56% 50%;
 }
 
 .scroll-cinema__mobile-veil {
@@ -475,11 +475,6 @@
 }
 
 @media (max-width: 560px) {
-  .scroll-cinema__mobile-visual .scroll-cinema__poster,
-  .scroll-cinema__mobile-visual .scroll-cinema__sequence {
-    object-position: 70% 50%;
-  }
-
   .scroll-cinema__mobile-copy {
     width: min(100% - 1.5rem, 20.6rem);
     padding-top: 5.85rem;
