@@ -1841,8 +1841,16 @@ main {
     border-radius: 1.45rem;
   }
 
+  .why-list {
+    padding-top: 0.55rem;
+  }
+
   .why-row {
     gap: 0.5rem;
+  }
+
+  .why-row:first-child {
+    padding-top: 0.7rem;
   }
 
   .why-row-index {
