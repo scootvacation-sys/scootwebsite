@@ -12,6 +12,8 @@ const heroFrameUrls = frameManifest.length ? frameManifest : fallbackFrameUrls;
 
 const READY_FRAME_TARGET = 18;
 const LOAD_CONCURRENCY = 8;
+const MOBILE_FRAME_LIMIT_SMALL = 36;
+const MOBILE_FRAME_LIMIT = 48;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const lerp = (start, end, amount) => start + (end - start) * amount;
@@ -47,6 +49,45 @@ const sampleFrameUrls = (frameUrls, targetFrameCount) => {
   return sampledUrls;
 };
 
+const buildPrioritizedFrameOrder = (frameCount) => {
+  if (frameCount <= 2) {
+    return Array.from({ length: frameCount }, (_, index) => index);
+  }
+
+  const ordered = [];
+  const visited = new Set();
+
+  const pushIndex = (index) => {
+    if (index < 0 || index >= frameCount || visited.has(index)) {
+      return;
+    }
+
+    visited.add(index);
+    ordered.push(index);
+  };
+
+  const queue = [[0, frameCount - 1]];
+  pushIndex(0);
+  pushIndex(frameCount - 1);
+
+  while (queue.length > 0) {
+    const [start, end] = queue.shift();
+    const middle = Math.floor((start + end) / 2);
+
+    pushIndex(middle);
+
+    if (middle - start > 1) {
+      queue.push([start, middle]);
+    }
+
+    if (end - middle > 1) {
+      queue.push([middle, end]);
+    }
+  }
+
+  return ordered;
+};
+
 const heroCopy = {
   eyebrow: 'Scoot Vacations',
   headline: 'Road trips that stay with you.',
@@ -79,11 +120,11 @@ const renderHeadlineWithAccent = (text, accentWord) => {
 
 const getPinDistance = (viewportWidth, frameCount) => {
   if (viewportWidth < 480) {
-    return Math.max(frameCount * 12, 560);
+    return Math.max(frameCount * 8, 420);
   }
 
   if (viewportWidth < 640) {
-    return Math.max(frameCount * 12, 640);
+    return Math.max(frameCount * 9, 520);
   }
 
   if (viewportWidth < 1024) {
@@ -143,7 +184,8 @@ function ScrollHero({
   });
 
   const isCompact = viewportWidth <= 760;
-  const compactFrameLimit = viewportWidth <= 480 ? 72 : 88;
+  const compactFrameLimit =
+    viewportWidth <= 480 ? MOBILE_FRAME_LIMIT_SMALL : MOBILE_FRAME_LIMIT;
   const sequenceFrameUrls = useMemo(() => {
     if (!isCompact) {
       return activeFrameUrls;
@@ -151,6 +193,10 @@ function ScrollHero({
 
     return sampleFrameUrls(activeFrameUrls, compactFrameLimit);
   }, [activeFrameUrls, compactFrameLimit, isCompact]);
+  const loadOrder = useMemo(
+    () => buildPrioritizedFrameOrder(sequenceFrameUrls.length),
+    [sequenceFrameUrls.length]
+  );
   const readyFrameTarget = Math.min(
     isCompact ? 14 : READY_FRAME_TARGET,
     sequenceFrameUrls.length
@@ -177,7 +223,7 @@ function ScrollHero({
     const nextProgress = lerp(
       smoothedProgressRef.current,
       targetProgressRef.current,
-      isCompact ? 0.18 : 0.14
+      isCompact ? 0.32 : 0.14
     );
     const settledProgress =
       Math.abs(nextProgress - targetProgressRef.current) < 0.0008
@@ -259,8 +305,8 @@ function ScrollHero({
       });
 
     const worker = async () => {
-      while (!cancelled && nextIndex < sequenceFrameUrls.length) {
-        const index = nextIndex;
+      while (!cancelled && nextIndex < loadOrder.length) {
+        const index = loadOrder[nextIndex];
         nextIndex += 1;
 
         const image = await loadFrame(sequenceFrameUrls[index]);
@@ -317,7 +363,7 @@ function ScrollHero({
     return () => {
       cancelled = true;
     };
-  }, [readyFrameTarget, sequenceFrameUrls]);
+  }, [loadOrder, readyFrameTarget, sequenceFrameUrls]);
 
   useEffect(() => {
     const syncProgress = () => {
