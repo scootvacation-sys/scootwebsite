@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import ScrollHero from './components/ScrollHero';
@@ -6,6 +6,7 @@ import nightFrameManifest from './generated/night-ezgif-manifest.json';
 
 const whatsappNumber = '919446482881';
 const navLogo = '/Scoot logo white.png';
+const footerLogo = '/Scoot logo Blue.png';
 const instagramUrl =
   'https://www.instagram.com/scoot_vacations?igsh=MWxsM3oydW1teDZkZQ==';
 const navLinks = [
@@ -115,10 +116,13 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [cursorEnabled, setCursorEnabled] = useState(false);
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
+  const cursorRingRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,6 +136,128 @@ function App() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 960) {
+        setIsNavOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle('mobile-nav-open', isNavOpen);
+
+    return () => {
+      document.body.classList.remove('mobile-nav-open');
+    };
+  }, [isNavOpen]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    let animationFrame = 0;
+    let currentX = window.innerWidth / 2;
+    let currentY = window.innerHeight / 2;
+    let ringX = currentX;
+    let ringY = currentY;
+
+    const setCursorClass = (className, shouldAdd) => {
+      cursorRingRef.current?.classList.toggle(className, shouldAdd);
+    };
+
+    const animateCursor = () => {
+      ringX += (currentX - ringX) * 0.16;
+      ringY += (currentY - ringY) * 0.16;
+
+      if (cursorRingRef.current) {
+        cursorRingRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
+
+      animationFrame = window.requestAnimationFrame(animateCursor);
+    };
+
+    const syncInteractiveState = (target) => {
+      const isInteractive = Boolean(
+        target?.closest?.(
+          'a, button, [role="button"], .btn, input, textarea, select, summary, label'
+        )
+      );
+      setCursorClass('is-active', isInteractive);
+    };
+
+    const handlePointerMove = (event) => {
+      currentX = event.clientX;
+      currentY = event.clientY;
+      setCursorClass('is-visible', true);
+      const hoveredElement =
+        document.elementFromPoint(event.clientX, event.clientY) || event.target;
+      syncInteractiveState(hoveredElement);
+    };
+
+    const handlePointerLeave = () => {
+      setCursorClass('is-visible', false);
+      setCursorClass('is-active', false);
+      setCursorClass('is-pressed', false);
+    };
+
+    const handlePointerDown = () => setCursorClass('is-pressed', true);
+    const handlePointerUp = () => setCursorClass('is-pressed', false);
+
+    const enableCursor = () => {
+      setCursorEnabled(true);
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(animateCursor);
+      }
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
+      window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+      window.addEventListener('pointerup', handlePointerUp, { passive: true });
+      window.addEventListener('pointerleave', handlePointerLeave);
+      document.addEventListener('mouseleave', handlePointerLeave);
+    };
+
+    const disableCursor = () => {
+      setCursorEnabled(false);
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointerleave', handlePointerLeave);
+      document.removeEventListener('mouseleave', handlePointerLeave);
+    };
+
+    const handleMediaChange = (event) => {
+      if (event.matches) {
+        enableCursor();
+      } else {
+        disableCursor();
+      }
+    };
+
+    if (mediaQuery.matches) {
+      enableCursor();
+    } else {
+      disableCursor();
+    }
+
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaChange);
+      disableCursor();
     };
   }, []);
 
@@ -155,7 +281,7 @@ function App() {
       frameId = 0;
 
       const nextIntroProgress = readSectionProgress(introSectionRef, 0.86, 0.28);
-      const nextMemoryProgress = readSectionProgress(memorySectionRef, 0.88, 0.24);
+      const nextMemoryProgress = readSectionProgress(memorySectionRef, 0.74, 0.2);
 
       if (nextIntroProgress !== null) {
         setIntroProgress((current) =>
@@ -195,6 +321,11 @@ function App() {
     document
       .querySelector(selector)
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleNavLinkClick = (target) => {
+    setIsNavOpen(false);
+    scrollToSection(target);
   };
 
   const openWhatsApp = (message) => {
@@ -243,40 +374,92 @@ function App() {
   return (
     <div className="app">
       <nav className={`navbar${isScrolled ? ' navbar-scrolled' : ''}`}>
-        <div className="container nav-shell">
-          <button
-            type="button"
-            className="logo logo-button"
-            aria-label="Scoot Vacations home"
-            onClick={() => scrollToSection('#home')}
-          >
-            <img src={navLogo} alt="Scoot Vacations" className="logo-image" />
-          </button>
+        <div className="nav-stack">
+          <div className="nav-shell">
+            <button
+              type="button"
+              className="logo logo-button"
+              aria-label="Scoot Vacations home"
+              onClick={() => {
+                setIsNavOpen(false);
+                scrollToSection('#home');
+              }}
+            >
+              <img src={navLogo} alt="Scoot Vacations" className="logo-image" />
+            </button>
 
-          <div className="nav-links" aria-label="Primary navigation">
-            {navLinks.map((item) => (
+            <div className="nav-links" aria-label="Primary navigation">
+              {navLinks.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  className="nav-link"
+                  onClick={() => scrollToSection(item.target)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="nav-actions">
               <button
-                key={item.label}
                 type="button"
-                className="nav-link"
-                onClick={() => scrollToSection(item.target)}
+                className="btn btn-primary nav-primary"
+                onClick={() =>
+                  openWhatsApp(
+                    'Hello Scoot Vacations, I want help planning the right trip for me.'
+                  )
+                }
               >
-                {item.label}
+                Plan a Trip
               </button>
-            ))}
+
+              <button
+                type="button"
+                className="nav-menu-toggle"
+                aria-expanded={isNavOpen}
+                aria-controls="mobile-nav"
+                aria-label={isNavOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                onClick={() => setIsNavOpen((open) => !open)}
+              >
+                {isNavOpen ? <X size={18} /> : <Menu size={18} />}
+                <span>{isNavOpen ? 'Close' : 'Menu'}</span>
+              </button>
+            </div>
           </div>
 
-          <button
-            type="button"
-            className="btn btn-primary nav-primary"
-            onClick={() =>
-              openWhatsApp(
-                'Hello Scoot Vacations, I want help planning the right trip for me.'
-              )
-            }
+          <div
+            id="mobile-nav"
+            className={`mobile-nav${isNavOpen ? ' is-open' : ''}`}
+            aria-hidden={!isNavOpen}
           >
-            Plan a Trip
-          </button>
+            <div className="mobile-nav-links" aria-label="Mobile navigation">
+              {navLinks.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  className="mobile-nav-link"
+                  onClick={() => handleNavLinkClick(item.target)}
+                >
+                  <span>{item.label}</span>
+                  <ArrowRight size={16} />
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className="btn btn-primary mobile-nav-primary"
+              onClick={() => {
+                setIsNavOpen(false);
+                openWhatsApp(
+                  'Hello Scoot Vacations, I want help planning the right trip for me.'
+                );
+              }}
+            >
+              Plan a Trip
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -379,33 +562,33 @@ function App() {
             <div className="memory-copy">
               <div
                 className="section-kicker memory-kicker"
-                style={getSectionBodyStyle(memoryProgress, 0.08, 0.24, 0, 18)}
+                style={getSectionBodyStyle(memoryProgress, 0.16, 0.32, 0, 10)}
               >
                 {memorySequence.kicker}
               </div>
               <div className="memory-title" aria-label="Complimentary Videographer">
                 <span
                   className="memory-title-line"
-                  style={getSectionLineStyle(memoryProgress, 0.14, 0.34, 156, 34)}
+                  style={getSectionLineStyle(memoryProgress, 0.22, 0.42, 62, 16)}
                 >
                   {memorySequence.titlePrimary}
                 </span>
                 <span
                   className="memory-title-line memory-title-line-highlight"
-                  style={getSectionLineStyle(memoryProgress, 0.24, 0.44, -136, 34)}
+                  style={getSectionLineStyle(memoryProgress, 0.3, 0.5, -56, 16)}
                 >
                   {memorySequence.titleSecondary}
                 </span>
               </div>
               <span
                 className="memory-lead"
-                style={getSectionBodyStyle(memoryProgress, 0.36, 0.54, 66, 14)}
+                style={getSectionBodyStyle(memoryProgress, 0.42, 0.58, 28, 8)}
               >
                 {memorySequence.lead}
               </span>
               <span
                 className="memory-body"
-                style={getSectionBodyStyle(memoryProgress, 0.44, 0.62, 82, 18)}
+                style={getSectionBodyStyle(memoryProgress, 0.5, 0.68, 34, 10)}
               >
                 {memorySequence.body}
               </span>
@@ -448,7 +631,10 @@ function App() {
             <div className="instagram-intro">
               <div className="instagram-copy">
                 <div className="section-kicker">Instagram</div>
-                <h2>Trip frames worth following.</h2>
+                <h2>
+                  Trip <span className="instagram-accent">frames</span> worth
+                  following.
+                </h2>
                 <p>
                   Placeholder travel photos for now. The section is ready for real
                   Scoot trip moments later.
@@ -540,26 +726,68 @@ function App() {
 
       <footer className="footer">
         <div className="container footer-shell">
-          <p>Scoot Vacations</p>
-          <div className="footer-links">
-            <a href="#services" onClick={(event) => {
-              event.preventDefault();
-              scrollToSection('#services');
-            }}>
-              Services
+          <div className="footer-head">
+            <img
+              src={footerLogo}
+              alt="Scoot Vacations"
+              className="footer-logo-image"
+            />
+
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="footer-head-link"
+            >
+              @scoot_vacations
+              <ArrowRight size={15} />
             </a>
-            <a href="#contact" onClick={(event) => {
-              event.preventDefault();
-              scrollToSection('#contact');
-            }}>
-              Contact
-            </a>
-            <a href={instagramUrl} target="_blank" rel="noreferrer">
-              Instagram
-            </a>
+          </div>
+
+          <div className="footer-main">
+            <div className="footer-copy-block">
+              <div className="section-kicker section-kicker-light">Scoot Vacations</div>
+              <p className="footer-title">Trips easier to plan. Better to remember.</p>
+              <p className="footer-copy">
+                Tour packages, group departures, stays, and support arranged with a
+                clearer hand from the first message onward.
+              </p>
+            </div>
+
+            <div className="footer-contact-block">
+              <a href="mailto:scootvacations@gmail.com" className="footer-contact-email">
+                scootvacations@gmail.com
+              </a>
+
+              <div className="footer-phone-list">
+                <a href="tel:+919446482881">+91 94464 82881</a>
+                <a href="tel:+919526372881">+91 95263 72881</a>
+                <a href="tel:+919544121932">+91 95441 21932</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-nav-row">
+            <div className="footer-nav-links">
+              {navLinks.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => scrollToSection(item.target)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <span className="footer-note">All routes begin with one message.</span>
           </div>
         </div>
       </footer>
+
+      {cursorEnabled ? (
+        <div ref={cursorRingRef} className="custom-cursor" aria-hidden="true" />
+      ) : null}
     </div>
   );
 }

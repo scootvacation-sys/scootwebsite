@@ -220,29 +220,45 @@
 .scroll-cinema__cta--solid {
   min-height: 3.3rem;
   padding: 0.9rem 1.35rem;
-  border: 1px solid rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--ink-900);
-  box-shadow: 0 28px 68px -34px rgba(6, 14, 21, 0.76);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
+    rgba(255, 255, 255, 0.08);
+  color: white;
+  box-shadow:
+    0 28px 68px -34px rgba(7, 18, 29, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
 }
 
 .scroll-cinema__cta--solid:hover {
-  background: white;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08)),
+    rgba(255, 255, 255, 0.12);
 }
 
 .scroll-cinema__cta--ghost {
   min-height: 3.3rem;
   padding: 0.9rem 1.35rem;
-  border: 1px solid rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--ink-900);
-  box-shadow: 0 28px 68px -34px rgba(6, 14, 21, 0.76);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+    rgba(7, 18, 29, 0.28);
+  color: rgba(255, 255, 255, 0.94);
+  box-shadow:
+    0 24px 52px -36px rgba(3, 10, 18, 0.84),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .scroll-cinema__cta--ghost:hover {
-  background: white;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+    rgba(7, 18, 29, 0.34);
 }
 
 .scroll-cinema__loading {
@@ -290,7 +306,7 @@
   position: absolute;
   left: 0.7rem;
   right: 0.7rem;
-  top: 5.9rem;
+  top: 6.45rem;
   bottom: 0.7rem;
   z-index: 3;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -345,7 +361,7 @@
   min-height: 100svh;
   width: min(100% - 2.4rem, 24rem);
   margin: 0 auto;
-  padding: 6rem 0 2.2rem;
+  padding: 6.45rem 0 2.2rem;
 }
 
 .scroll-cinema__mobile-copy h1 {
@@ -381,16 +397,22 @@
 }
 
 .scroll-cinema__mobile-actions .scroll-cinema__cta--solid {
-  border-color: rgba(255, 208, 147, 0.44);
-  background: linear-gradient(135deg, #f2a44b, #f7be74);
-  color: #11212f;
+  border-color: rgba(255, 255, 255, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
+    rgba(255, 255, 255, 0.1);
+  color: white;
   box-shadow:
-    0 22px 42px -28px rgba(242, 164, 75, 0.72),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+    0 22px 42px -28px rgba(7, 18, 29, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
 }
 
 .scroll-cinema__mobile-actions .scroll-cinema__cta--solid:hover {
-  background: linear-gradient(135deg, #f4ad5d, #f8c785);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08)),
+    rgba(255, 255, 255, 0.14);
 }
 
 .scroll-cinema__mobile-actions .scroll-cinema__cta--ghost {
@@ -532,14 +554,14 @@
 @media (max-width: 560px) {
   .scroll-cinema__mobile-copy {
     width: min(100% - 1.5rem, 20.6rem);
-    padding-top: 5.85rem;
+    padding-top: 6.2rem;
     padding-bottom: 1.7rem;
   }
 
   .scroll-cinema__mobile-media::after {
     left: 0.55rem;
     right: 0.55rem;
-    top: 5.45rem;
+    top: 5.85rem;
     bottom: 0.55rem;
     border-radius: 1.35rem;
   }
