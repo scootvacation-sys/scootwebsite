@@ -12,8 +12,8 @@ const heroFrameUrls = frameManifest.length ? frameManifest : fallbackFrameUrls;
 
 const READY_FRAME_TARGET = 18;
 const LOAD_CONCURRENCY = 8;
-const MOBILE_FRAME_LIMIT_SMALL = 36;
-const MOBILE_FRAME_LIMIT = 48;
+const MOBILE_FRAME_LIMIT_SMALL = 42;
+const MOBILE_FRAME_LIMIT = 56;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const lerp = (start, end, amount) => start + (end - start) * amount;
@@ -198,7 +198,7 @@ function ScrollHero({
     [sequenceFrameUrls.length]
   );
   const readyFrameTarget = Math.min(
-    isCompact ? 14 : READY_FRAME_TARGET,
+    isCompact ? 16 : READY_FRAME_TARGET,
     sequenceFrameUrls.length
   );
 
@@ -223,7 +223,7 @@ function ScrollHero({
     const nextProgress = lerp(
       smoothedProgressRef.current,
       targetProgressRef.current,
-      isCompact ? 0.32 : 0.14
+      isCompact ? 0.24 : 0.14
     );
     const settledProgress =
       Math.abs(nextProgress - targetProgressRef.current) < 0.0008

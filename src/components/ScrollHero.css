@@ -311,9 +311,9 @@
   inset: 0;
   z-index: 2;
   background:
-    linear-gradient(90deg, rgba(6, 17, 28, 0.44) 0%, rgba(6, 17, 28, 0.16) 22%, transparent 42%),
-    linear-gradient(180deg, rgba(6, 17, 28, 0.22), rgba(6, 17, 28, 0.04) 24%, transparent 44%),
-    linear-gradient(180deg, transparent 42%, rgba(6, 17, 28, 0.22) 62%, rgba(6, 17, 28, 0.88) 100%);
+    linear-gradient(90deg, rgba(6, 17, 28, 0.62) 0%, rgba(6, 17, 28, 0.3) 24%, transparent 48%),
+    linear-gradient(180deg, rgba(6, 17, 28, 0.3), rgba(6, 17, 28, 0.06) 24%, transparent 44%),
+    linear-gradient(180deg, transparent 40%, rgba(6, 17, 28, 0.28) 62%, rgba(6, 17, 28, 0.92) 100%);
   pointer-events: none;
 }
 
