@@ -481,10 +481,32 @@ function App() {
             <h2>Travel that feels lighter on the road and richer after it.</h2>
           </div>
 
-          <div className="editorial-manifest-side">
+          <div className="editorial-manifest-note">
             <p>
               Packages, transport, stays, and professional trip coverage shaped into
               one smoother experience.
+            </p>
+            <div className="editorial-manifest-service-list">
+              {serviceLines.map((service) => (
+                <span key={service}>{service}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="container editorial-manifest-cinema">
+          <img
+            src={imagePaths.resortStay}
+            alt="Scoot travel experience"
+            className="editorial-manifest-cinema-image"
+            loading="lazy"
+          />
+
+          <div className="editorial-manifest-cinema-copy">
+            <span className="editorial-kicker editorial-kicker-light">Memory-first travel</span>
+            <p>
+              You stay inside the journey. Scoot handles the movement and captures the
+              story while it happens.
             </p>
             <div className="editorial-manifest-actions">
               <button
@@ -505,19 +527,9 @@ function App() {
               </a>
             </div>
           </div>
-        </div>
 
-        <div className="container editorial-manifest-stage">
-          <div className="editorial-manifest-photo editorial-manifest-photo-large">
-            <img src={imagePaths.resortStay} alt="Scoot resort stay experience" loading="lazy" />
-          </div>
-          <div className="editorial-manifest-photo editorial-manifest-photo-small">
+          <div className="editorial-manifest-cinema-stamp">
             <img src={imagePaths.coastalEscape} alt="Scoot scenic getaway" loading="lazy" />
-          </div>
-          <div className="editorial-manifest-ribbon">
-            {serviceLines.map((service) => (
-              <span key={service}>{service}</span>
-            ))}
           </div>
         </div>
       </section>
