@@ -1713,6 +1713,10 @@ main {
     justify-self: stretch;
   }
 
+  .memory-visual img {
+    object-position: center 36%;
+  }
+
   .why-row {
     grid-template-columns: 1fr;
     gap: 0.55rem;
@@ -1836,6 +1840,10 @@ main {
   .mobile-nav-links {
     padding: 0;
     border-radius: 0;
+  }
+
+  .memory-visual img {
+    object-position: center 40%;
   }
 
   .mobile-nav-link {
