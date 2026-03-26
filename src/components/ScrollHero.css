@@ -301,24 +301,6 @@
   background: #08131d;
 }
 
-.scroll-cinema__mobile-media::after {
-  content: '';
-  position: absolute;
-  left: 0.7rem;
-  right: 0.7rem;
-  top: 6.45rem;
-  bottom: 0.7rem;
-  z-index: 3;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 1.65rem;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 18%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
-  pointer-events: none;
-}
-
 .scroll-cinema__mobile-media::before {
   content: '';
   position: absolute;
@@ -556,14 +538,6 @@
     width: min(100% - 1.5rem, 20.6rem);
     padding-top: 6.2rem;
     padding-bottom: 1.7rem;
-  }
-
-  .scroll-cinema__mobile-media::after {
-    left: 0.55rem;
-    right: 0.55rem;
-    top: 5.85rem;
-    bottom: 0.55rem;
-    border-radius: 1.35rem;
   }
 
   .scroll-cinema__mobile-copy h1 {
