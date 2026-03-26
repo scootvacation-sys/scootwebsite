@@ -138,13 +138,15 @@ function App() {
   );
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
-  const [instagramProgress, setInstagramProgress] = useState(0);
+  const [instagramCardOffsets, setInstagramCardOffsets] = useState(() =>
+    instagramPhotos.map(() => 0)
+  );
   const navStackRef = useRef(null);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
-  const instagramSectionRef = useRef(null);
   const serviceRowRefs = useRef([]);
   const whyRowRefs = useRef([]);
+  const instagramCardRefs = useRef([]);
   const cursorRingRef = useRef(null);
 
   useEffect(() => {
@@ -408,11 +410,6 @@ function App() {
 
       const nextIntroProgress = readSectionProgress(introSectionRef, 0.86, 0.28);
       const nextMemoryProgress = readSectionProgress(memorySectionRef, 0.74, 0.2);
-      const nextInstagramProgress = readSectionProgress(
-        instagramSectionRef,
-        0.9,
-        0.16
-      );
 
       if (nextIntroProgress !== null) {
         setIntroProgress((current) =>
@@ -427,14 +424,6 @@ function App() {
             : current
         );
       }
-
-      if (nextInstagramProgress !== null) {
-        setInstagramProgress((current) =>
-          Math.abs(current - nextInstagramProgress) > 0.008
-            ? nextInstagramProgress
-            : current
-        );
-      }
     };
 
     const requestSync = () => {
@@ -444,6 +433,70 @@ function App() {
     };
 
     syncSectionProgress();
+    window.addEventListener('scroll', requestSync, { passive: true });
+    window.addEventListener('resize', requestSync);
+
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', requestSync);
+      window.removeEventListener('resize', requestSync);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    let frameId = 0;
+
+    const syncInstagramCardOffsets = () => {
+      frameId = 0;
+
+      if (window.innerWidth > 760) {
+        setInstagramCardOffsets((current) =>
+          current.every((offset) => offset === 0)
+            ? current
+            : instagramPhotos.map(() => 0)
+        );
+        return;
+      }
+
+      const viewportHeight = window.innerHeight || 1;
+      const maxOffset = window.innerWidth <= 520 ? 48 : 64;
+      const start = viewportHeight * 0.94;
+      const end = viewportHeight * 0.26;
+
+      const nextOffsets = instagramPhotos.map((_, index) => {
+        const card = instagramCardRefs.current[index];
+        if (!card) {
+          return 0;
+        }
+
+        const rect = card.getBoundingClientRect();
+        const progress = clamp((start - rect.top) / (start - end), 0, 1);
+        const eased = 1 - (1 - progress) ** 3;
+        const direction = index % 2 === 0 ? -1 : 1;
+
+        return Number((((1 - eased) * maxOffset) * direction).toFixed(2));
+      });
+
+      setInstagramCardOffsets((current) =>
+        current.every((offset, index) => Math.abs(offset - nextOffsets[index]) < 0.75)
+          ? current
+          : nextOffsets
+      );
+    };
+
+    const requestSync = () => {
+      if (!frameId) {
+        frameId = window.requestAnimationFrame(syncInstagramCardOffsets);
+      }
+    };
+
+    syncInstagramCardOffsets();
     window.addEventListener('scroll', requestSync, { passive: true });
     window.addEventListener('resize', requestSync);
 
@@ -515,15 +568,8 @@ function App() {
       return undefined;
     }
 
-    const direction = index % 2 === 0 ? -1 : 1;
-    const xOffset = viewportWidth <= 520 ? 28 : 38;
-    const yOffset = viewportWidth <= 520 ? 12 : 16;
-    const start = 0.08 + index * 0.06;
-    const end = 0.34 + index * 0.06;
-    const eased = getSectionRevealProgress(instagramProgress, start, end);
-
     return {
-      transform: `translate3d(${(1 - eased) * xOffset * direction}px, ${(1 - eased) * yOffset}px, 0)`,
+      transform: `translate3d(${instagramCardOffsets[index] ?? 0}px, 0, 0)`,
     };
   };
 
@@ -850,11 +896,7 @@ function App() {
           </div>
         </section>
 
-        <section
-          id="instagram"
-          ref={instagramSectionRef}
-          className="section instagram-section"
-        >
+        <section id="instagram" className="section instagram-section">
           <div className="container instagram-shell">
             <div className="instagram-intro">
               <div className="instagram-copy">
@@ -884,6 +926,9 @@ function App() {
               {instagramPhotos.map((photo, index) => (
                 <a
                   key={photo.src}
+                  ref={(node) => {
+                    instagramCardRefs.current[index] = node;
+                  }}
                   className={`instagram-card instagram-card-${index + 1}`}
                   href={instagramUrl}
                   target="_blank"

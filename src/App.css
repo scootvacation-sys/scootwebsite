@@ -1742,6 +1742,14 @@ main {
     aspect-ratio: 16 / 6.7;
   }
 
+  .instagram-card {
+    will-change: transform;
+    transition:
+      transform 80ms linear,
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
   .contact-shell {
     padding: 1.5rem;
   }
