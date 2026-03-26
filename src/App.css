@@ -1354,8 +1354,11 @@ main {
   color: rgba(255, 255, 255, 0.78);
 }
 
-.contact-icon-ringing {
+.contact-details a svg.contact-icon-ringing {
   color: #085bb5;
+}
+
+.contact-icon-ringing {
   transform-origin: 35% 70%;
   animation: contact-phone-ring 1.6s ease-in-out infinite;
 }
