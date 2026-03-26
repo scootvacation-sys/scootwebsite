@@ -1355,6 +1355,7 @@ main {
 }
 
 .contact-icon-ringing {
+  color: #085bb5;
   transform-origin: 35% 70%;
   animation: contact-phone-ring 1.6s ease-in-out infinite;
 }
