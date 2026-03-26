@@ -1743,9 +1743,9 @@ main {
   }
 
   .instagram-card {
+    transform: translate3d(var(--instagram-shift-x, 0px), 0, 0);
     will-change: transform;
     transition:
-      transform 80ms linear,
       border-color 220ms ease,
       box-shadow 220ms ease;
   }

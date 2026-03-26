@@ -133,14 +133,8 @@ function App() {
   const [cursorEnabled, setCursorEnabled] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
   const [activeWhyIndex, setActiveWhyIndex] = useState(-1);
-  const [viewportWidth, setViewportWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 1280
-  );
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
-  const [instagramCardOffsets, setInstagramCardOffsets] = useState(() =>
-    instagramPhotos.map(() => 0)
-  );
   const navStackRef = useRef(null);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
@@ -166,8 +160,6 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-
       if (window.innerWidth > 960) {
         setIsNavOpen(false);
       }
@@ -455,39 +447,31 @@ function App() {
     const syncInstagramCardOffsets = () => {
       frameId = 0;
 
+      const cards = instagramCardRefs.current.filter(Boolean);
+      if (!cards.length) {
+        return;
+      }
+
       if (window.innerWidth > 760) {
-        setInstagramCardOffsets((current) =>
-          current.every((offset) => offset === 0)
-            ? current
-            : instagramPhotos.map(() => 0)
-        );
+        cards.forEach((card) => {
+          card.style.setProperty('--instagram-shift-x', '0px');
+        });
         return;
       }
 
       const viewportHeight = window.innerHeight || 1;
-      const maxOffset = window.innerWidth <= 520 ? 48 : 64;
-      const start = viewportHeight * 0.94;
-      const end = viewportHeight * 0.26;
+      const maxOffset = window.innerWidth <= 520 ? 20 : 26;
+      const start = viewportHeight * 0.96;
+      const end = viewportHeight * 0.58;
 
-      const nextOffsets = instagramPhotos.map((_, index) => {
-        const card = instagramCardRefs.current[index];
-        if (!card) {
-          return 0;
-        }
-
+      cards.forEach((card, index) => {
         const rect = card.getBoundingClientRect();
         const progress = clamp((start - rect.top) / (start - end), 0, 1);
-        const eased = 1 - (1 - progress) ** 3;
+        const eased = progress * (2 - progress);
         const direction = index % 2 === 0 ? -1 : 1;
-
-        return Number((((1 - eased) * maxOffset) * direction).toFixed(2));
+        const offset = ((1 - eased) * maxOffset * direction).toFixed(2);
+        card.style.setProperty('--instagram-shift-x', `${offset}px`);
       });
-
-      setInstagramCardOffsets((current) =>
-        current.every((offset, index) => Math.abs(offset - nextOffsets[index]) < 0.75)
-          ? current
-          : nextOffsets
-      );
     };
 
     const requestSync = () => {
@@ -560,16 +544,6 @@ function App() {
 
     return {
       transform: `translate3d(${(1 - eased) * offsetX}px, ${(1 - eased) * offsetY}px, 0)`,
-    };
-  };
-
-  const getInstagramCardStyle = (index) => {
-    if (viewportWidth > 760) {
-      return undefined;
-    }
-
-    return {
-      transform: `translate3d(${instagramCardOffsets[index] ?? 0}px, 0, 0)`,
     };
   };
 
@@ -934,7 +908,6 @@ function App() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`Open Scoot Vacations Instagram: ${photo.label}`}
-                  style={getInstagramCardStyle(index)}
                 >
                   <img
                     src={photo.src}
