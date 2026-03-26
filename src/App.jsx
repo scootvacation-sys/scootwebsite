@@ -133,6 +133,9 @@ function App() {
   const [cursorEnabled, setCursorEnabled] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
   const [activeWhyIndex, setActiveWhyIndex] = useState(-1);
+  const [visibleInstagramCards, setVisibleInstagramCards] = useState(() =>
+    instagramPhotos.map(() => false)
+  );
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
   const navStackRef = useRef(null);
@@ -140,6 +143,7 @@ function App() {
   const memorySectionRef = useRef(null);
   const serviceRowRefs = useRef([]);
   const whyRowRefs = useRef([]);
+  const instagramCardRefs = useRef([]);
   const cursorRingRef = useRef(null);
 
   useEffect(() => {
@@ -434,6 +438,48 @@ function App() {
       window.removeEventListener('scroll', requestSync);
       window.removeEventListener('resize', requestSync);
     };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          const index = Number(entry.target.dataset.instagramIndex);
+          if (Number.isNaN(index)) {
+            return;
+          }
+
+          setVisibleInstagramCards((current) => {
+            if (current[index]) {
+              return current;
+            }
+
+            const next = [...current];
+            next[index] = true;
+            return next;
+          });
+
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.28,
+        rootMargin: '0px 0px -8% 0px',
+      }
+    );
+
+    const nodes = instagramCardRefs.current.filter(Boolean);
+    nodes.forEach((node) => observer.observe(node));
+
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (selector) => {
@@ -843,7 +889,13 @@ function App() {
               {instagramPhotos.map((photo, index) => (
                 <a
                   key={photo.src}
-                  className={`instagram-card instagram-card-${index + 1}`}
+                  ref={(node) => {
+                    instagramCardRefs.current[index] = node;
+                  }}
+                  data-instagram-index={index}
+                  className={`instagram-card instagram-card-${index + 1}${
+                    visibleInstagramCards[index] ? ' is-visible' : ''
+                  }`}
                   href={instagramUrl}
                   target="_blank"
                   rel="noreferrer"
