@@ -1742,32 +1742,6 @@ main {
     aspect-ratio: 16 / 6.7;
   }
 
-  .instagram-card {
-    opacity: 0;
-    transform: translate3d(var(--instagram-enter-x, 0), 1rem, 0) scale(0.985);
-    will-change: transform, opacity;
-    transition:
-      opacity 360ms ease,
-      transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 220ms ease,
-      box-shadow 220ms ease;
-  }
-
-  .instagram-card-1,
-  .instagram-card-3 {
-    --instagram-enter-x: -2.2rem;
-  }
-
-  .instagram-card-2,
-  .instagram-card-4 {
-    --instagram-enter-x: 2.2rem;
-  }
-
-  .instagram-card.is-visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
   .contact-shell {
     padding: 1.5rem;
   }
@@ -1949,16 +1923,6 @@ main {
     min-height: 0;
     aspect-ratio: 16 / 6.3;
     border-radius: 1.45rem;
-  }
-
-  .instagram-card-1,
-  .instagram-card-3 {
-    --instagram-enter-x: -1.8rem;
-  }
-
-  .instagram-card-2,
-  .instagram-card-4 {
-    --instagram-enter-x: 1.8rem;
   }
 
   .why-list {

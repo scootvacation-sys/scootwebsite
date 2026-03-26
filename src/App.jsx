@@ -133,17 +133,18 @@ function App() {
   const [cursorEnabled, setCursorEnabled] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
   const [activeWhyIndex, setActiveWhyIndex] = useState(-1);
-  const [visibleInstagramCards, setVisibleInstagramCards] = useState(() =>
-    instagramPhotos.map(() => false)
+  const [viewportWidth, setViewportWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1280
   );
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
+  const [instagramProgress, setInstagramProgress] = useState(0);
   const navStackRef = useRef(null);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
+  const instagramSectionRef = useRef(null);
   const serviceRowRefs = useRef([]);
   const whyRowRefs = useRef([]);
-  const instagramCardRefs = useRef([]);
   const cursorRingRef = useRef(null);
 
   useEffect(() => {
@@ -163,6 +164,8 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+
       if (window.innerWidth > 960) {
         setIsNavOpen(false);
       }
@@ -405,6 +408,11 @@ function App() {
 
       const nextIntroProgress = readSectionProgress(introSectionRef, 0.86, 0.28);
       const nextMemoryProgress = readSectionProgress(memorySectionRef, 0.74, 0.2);
+      const nextInstagramProgress = readSectionProgress(
+        instagramSectionRef,
+        0.9,
+        0.16
+      );
 
       if (nextIntroProgress !== null) {
         setIntroProgress((current) =>
@@ -416,6 +424,14 @@ function App() {
         setMemoryProgress((current) =>
           Math.abs(current - nextMemoryProgress) > 0.008
             ? nextMemoryProgress
+            : current
+        );
+      }
+
+      if (nextInstagramProgress !== null) {
+        setInstagramProgress((current) =>
+          Math.abs(current - nextInstagramProgress) > 0.008
+            ? nextInstagramProgress
             : current
         );
       }
@@ -438,48 +454,6 @@ function App() {
       window.removeEventListener('scroll', requestSync);
       window.removeEventListener('resize', requestSync);
     };
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
-
-          const index = Number(entry.target.dataset.instagramIndex);
-          if (Number.isNaN(index)) {
-            return;
-          }
-
-          setVisibleInstagramCards((current) => {
-            if (current[index]) {
-              return current;
-            }
-
-            const next = [...current];
-            next[index] = true;
-            return next;
-          });
-
-          observer.unobserve(entry.target);
-        });
-      },
-      {
-        threshold: 0.28,
-        rootMargin: '0px 0px -8% 0px',
-      }
-    );
-
-    const nodes = instagramCardRefs.current.filter(Boolean);
-    nodes.forEach((node) => observer.observe(node));
-
-    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (selector) => {
@@ -533,6 +507,23 @@ function App() {
 
     return {
       transform: `translate3d(${(1 - eased) * offsetX}px, ${(1 - eased) * offsetY}px, 0)`,
+    };
+  };
+
+  const getInstagramCardStyle = (index) => {
+    if (viewportWidth > 760) {
+      return undefined;
+    }
+
+    const direction = index % 2 === 0 ? -1 : 1;
+    const xOffset = viewportWidth <= 520 ? 28 : 38;
+    const yOffset = viewportWidth <= 520 ? 12 : 16;
+    const start = 0.08 + index * 0.06;
+    const end = 0.34 + index * 0.06;
+    const eased = getSectionRevealProgress(instagramProgress, start, end);
+
+    return {
+      transform: `translate3d(${(1 - eased) * xOffset * direction}px, ${(1 - eased) * yOffset}px, 0)`,
     };
   };
 
@@ -859,7 +850,11 @@ function App() {
           </div>
         </section>
 
-        <section id="instagram" className="section instagram-section">
+        <section
+          id="instagram"
+          ref={instagramSectionRef}
+          className="section instagram-section"
+        >
           <div className="container instagram-shell">
             <div className="instagram-intro">
               <div className="instagram-copy">
@@ -889,17 +884,12 @@ function App() {
               {instagramPhotos.map((photo, index) => (
                 <a
                   key={photo.src}
-                  ref={(node) => {
-                    instagramCardRefs.current[index] = node;
-                  }}
-                  data-instagram-index={index}
-                  className={`instagram-card instagram-card-${index + 1}${
-                    visibleInstagramCards[index] ? ' is-visible' : ''
-                  }`}
+                  className={`instagram-card instagram-card-${index + 1}`}
                   href={instagramUrl}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`Open Scoot Vacations Instagram: ${photo.label}`}
+                  style={getInstagramCardStyle(index)}
                 >
                   <img
                     src={photo.src}
