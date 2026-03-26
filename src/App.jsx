@@ -849,7 +849,12 @@ function App() {
                   rel="noreferrer"
                   aria-label={`Open Scoot Vacations Instagram: ${photo.label}`}
                 >
-                  <img src={photo.src} alt={photo.alt} loading="lazy" />
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="eager"
+                    decoding="async"
+                  />
                   <span className="instagram-card-label">{photo.label}</span>
                 </a>
               ))}
