@@ -1750,6 +1750,11 @@ main {
       box-shadow 220ms ease;
   }
 
+  .instagram-card:hover,
+  .instagram-card:focus-within {
+    transform: translate3d(var(--instagram-shift-x, 0px), 0, 0);
+  }
+
   .contact-shell {
     padding: 1.5rem;
   }
