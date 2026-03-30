@@ -229,8 +229,9 @@ export const legalPages = {
         id: 'payment-terms',
         title: '7. Payment terms',
         paragraphs: [
-          'Payment terms may vary depending on the package, supplier requirements, and travel dates. Depending on the booking, we may require a partial advance, full advance, or balance payment before departure or check-in.',
-          'Unless we state otherwise in writing, prices are not locked until the required payment is received, delayed payment may lead to revised pricing or loss of availability, and any additional cost caused by customer-requested changes must be paid by the customer.',
+          'All bookings are subject to availability. Depending on the package, supplier requirements, and travel dates, we may require a partial advance, full advance, or balance payment before departure or check-in.',
+          'A booking is treated as confirmed only after the required advance or payment has been received. Where a balance is due before the trip begins, failure to clear it on time may result in cancellation, denial of service, revised pricing, or loss of availability.',
+          'Unless we state otherwise in writing, prices are not locked until the required payment is received, and any additional cost caused by customer-requested changes must be paid by the customer.',
         ],
       },
       {
@@ -245,8 +246,22 @@ export const legalPages = {
         ],
       },
       {
+        id: 'conduct-and-safety',
+        title: '9. Conduct and safety',
+        paragraphs: [
+          'Travellers are expected to behave responsibly, respectfully, and in accordance with local laws, cultural norms, and safety instructions throughout the trip.',
+          'Scoot Vacations or the relevant operator may deny participation, remove a traveller from part of the trip, or stop support without refund if behaviour is abusive, disruptive, unsafe, unlawful, or harmful to other travellers, guides, drivers, hotel staff, or local communities.',
+        ],
+        items: [
+          'Follow the instructions of guides, drivers, tour leaders, and appointed representatives',
+          'Disclose relevant medical conditions, disabilities, mobility limitations, or special requirements at the time of booking where they may affect the trip',
+          'Avoid participation while under the influence of alcohol or drugs where safety may be compromised',
+          'Remain responsible for any damage caused to accommodation, transport, equipment, or other property during the trip',
+        ],
+      },
+      {
         id: 'itinerary-and-operations',
-        title: '9. Itinerary changes, delays, and operational issues',
+        title: '10. Itinerary changes, delays, and operational issues',
         paragraphs: [
           'Travel plans can be affected by weather, traffic, road conditions, local restrictions, closures, supplier issues, safety concerns, or other practical circumstances.',
           'Where reasonably necessary, Scoot Vacations may adjust the route, timing, stay, transport, or service sequence. Where possible, we will communicate changes clearly and offer a practical alternative.',
@@ -254,36 +269,36 @@ export const legalPages = {
       },
       {
         id: 'force-majeure',
-        title: '10. Force majeure',
+        title: '11. Force majeure',
         paragraphs: [
           'Scoot Vacations is not responsible for delays, disruptions, or inability to perform services caused by events outside our reasonable control, including severe weather, natural disasters, strikes, shutdowns, transport disruption, road closures, public emergencies, destination closures, or government restrictions.',
         ],
       },
       {
         id: 'cancellations',
-        title: '11. Cancellations and refunds',
+        title: '12. Cancellations and refunds',
         paragraphs: [
           'Cancellations and refunds are handled according to our Cancellation and Refund Policy and any applicable supplier terms.',
         ],
       },
       {
         id: 'liability',
-        title: '12. Limitation of liability',
+        title: '13. Limitation of liability',
         paragraphs: [
-          'Scoot Vacations is not liable for indirect, incidental, or consequential losses arising from third-party provider failures, travel delays, closures, weather or road conditions, missed departures caused by customer delay, inaccurate information provided by the customer, loss of personal belongings, or other events beyond reasonable operational control.',
+          'Scoot Vacations acts as a booking coordinator and travel facilitator between the customer and relevant third-party providers. We are not liable for indirect, incidental, or consequential losses arising from acts, omissions, defaults, delays, cancellations, climate-related disruption, or service failures of independent suppliers.',
           'Where liability applies under law, it will generally be limited to the amount paid to Scoot Vacations for the specific service in question, subject to applicable law and supplier terms.',
         ],
       },
       {
         id: 'intellectual-property',
-        title: '13. Intellectual property',
+        title: '14. Intellectual property',
         paragraphs: [
           'All original content on this website, including text, branding, graphics, layout, and visual presentation, belongs to Scoot Vacations unless otherwise stated. It may not be copied, republished, or used without prior written permission.',
         ],
       },
       {
         id: 'governing-law',
-        title: '14. Governing law and disputes',
+        title: '15. Governing law and disputes',
         paragraphs: [
           'These Terms & Conditions are governed by the laws of India. Any dispute arising from the use of the website or our services shall be subject to the jurisdiction of the courts having competent jurisdiction in India, unless applicable law requires otherwise.',
         ],
@@ -312,7 +327,7 @@ export const legalPages = {
         id: 'customer-cancellation',
         title: '2. Cancellation by the customer',
         paragraphs: [
-          'If you need to cancel, please inform Scoot Vacations as early as possible through the official contact details shared during the booking process.',
+          'If you need to cancel, please inform Scoot Vacations as early as possible through email, WhatsApp, or another official communication channel used for the booking. A cancellation is generally treated as effective from the date and time it is actually received by us.',
         ],
         items: [
           'The date of cancellation',
@@ -327,6 +342,7 @@ export const legalPages = {
         title: '3. Non-refundable situations',
         paragraphs: [
           'Some payments may be fully or partly non-refundable in situations where the booking has already been committed or the supplier does not allow recovery.',
+          'Unless we clearly state a different rule at the time of booking, cancellations made within 15 days of the scheduled departure or check-in date may lead to loss of the advance amount, subject to supplier terms and actual recovery.',
         ],
         items: [
           'Supplier-marked non-refundable bookings',
@@ -341,7 +357,7 @@ export const legalPages = {
         title: '4. Supplier-dependent refunds',
         paragraphs: [
           'Where a booking depends on hotels, resorts, transport operators, or other travel vendors, any refund is subject to what those suppliers actually approve and return.',
-          'Scoot Vacations cannot guarantee a refund until the relevant supplier confirms the refundable amount, if any.',
+          'Scoot Vacations cannot guarantee a refund until the relevant supplier confirms the refundable amount, if any. Earlier cancellations may qualify for a fuller refund, but this still depends on supplier deductions and any non-recoverable costs already incurred.',
         ],
       },
       {
