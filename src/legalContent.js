@@ -14,7 +14,8 @@ export const legalContact = {
   secondaryPhones: ['+91 95263 72881', '+91 95441 21932'],
   whatsappHref: 'https://wa.me/919446482881',
   effectiveDate: '26 March 2026',
-  registeredAddress: '[Registered Address]',
+  registeredAddress:
+    '1st Floor, Thekkumpuram Building, Calicut Airport Jn, Kondotty, Malappuram',
 };
 
 export const legalPages = {
