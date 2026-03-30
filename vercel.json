@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/privacy-policy",
+      "destination": "/"
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/"
+    },
+    {
+      "source": "/cancellation-and-refund-policy",
+      "destination": "/"
+    },
+    {
+      "source": "/disclaimer",
+      "destination": "/"
+    }
+  ]
+}

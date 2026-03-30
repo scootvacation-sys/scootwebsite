@@ -1569,8 +1569,18 @@ main {
   cursor: pointer;
 }
 
+.footer-nav-links a {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.96rem;
+  font-weight: 700;
+  line-height: 1.55;
+  text-align: left;
+}
+
 .footer-nav-links button:hover,
-.footer-nav-links button:focus-visible {
+.footer-nav-links button:focus-visible,
+.footer-nav-links a:hover,
+.footer-nav-links a:focus-visible {
   color: white;
 }
 
@@ -1588,6 +1598,41 @@ main {
   gap: 1rem;
   padding-top: 0.35rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.2rem;
+}
+
+.footer-legal-links a {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.footer-legal-links a:hover,
+.footer-legal-links a:focus-visible {
+  color: white;
+}
+
+.footer-credit {
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+.footer-credit a {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.footer-credit a:hover,
+.footer-credit a:focus-visible {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 @media (max-width: 1240px) {

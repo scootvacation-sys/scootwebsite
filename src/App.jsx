@@ -6,20 +6,13 @@ import {
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
+import LegalPage from './components/LegalPage';
+import SiteFooter from './components/SiteFooter';
+import SiteHeader from './components/SiteHeader';
 import ScrollHero from './components/ScrollHero';
 import nightFrameManifest from './generated/night-ezgif-manifest.json';
-
-const whatsappNumber = '919446482881';
-const navLogo = '/Scoot logo white.png';
-const footerLogo = '/Scoot logo Blue.png';
-const instagramUrl =
-  'https://www.instagram.com/scoot_vacations?igsh=MWxsM3oydW1teDZkZQ==';
-const navLinks = [
-  { label: 'Services', target: '#services' },
-  { label: 'Why Scoot', target: '#why-scoot' },
-  { label: 'Gallery', target: '#instagram' },
-  { label: 'Contact', target: '#contact' },
-];
+import { legalPages } from './legalContent';
+import { buildWhatsAppLink, defaultPlanMessage, instagramUrl } from './siteConfig';
 
 const services = [
   {
@@ -126,84 +119,26 @@ const instagramPhotos = [
 ];
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const normalizePath = (pathname) => {
+  if (!pathname || pathname === '/') {
+    return '/';
+  }
 
-function App() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  return pathname.replace(/\/+$/, '') || '/';
+};
+
+function HomePage() {
   const [cursorEnabled, setCursorEnabled] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
   const [activeWhyIndex, setActiveWhyIndex] = useState(-1);
   const [introProgress, setIntroProgress] = useState(0);
   const [memoryProgress, setMemoryProgress] = useState(0);
-  const navStackRef = useRef(null);
   const introSectionRef = useRef(null);
   const memorySectionRef = useRef(null);
   const serviceRowRefs = useRef([]);
   const whyRowRefs = useRef([]);
   const instagramCardRefs = useRef([]);
   const cursorRingRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 18);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 960) {
-        setIsNavOpen(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle('mobile-nav-open', isNavOpen);
-
-    return () => {
-      document.body.classList.remove('mobile-nav-open');
-    };
-  }, [isNavOpen]);
-
-  useEffect(() => {
-    if (!isNavOpen) {
-      return undefined;
-    }
-
-    const handlePointerDownOutside = (event) => {
-      if (!navStackRef.current?.contains(event.target)) {
-        setIsNavOpen(false);
-      }
-    };
-
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        setIsNavOpen(false);
-      }
-    };
-
-    document.addEventListener('pointerdown', handlePointerDownOutside);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDownOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isNavOpen]);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -499,16 +434,8 @@ function App() {
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleNavLinkClick = (target) => {
-    setIsNavOpen(false);
-    scrollToSection(target);
-  };
-
   const openWhatsApp = (message) => {
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
-      '_blank'
-    );
+    window.open(buildWhatsAppLink(message), '_blank');
   };
 
   const getSectionRevealProgress = (sectionProgress, start, end) => {
@@ -549,107 +476,12 @@ function App() {
 
   return (
     <div className="app">
-      <nav className={`navbar${isScrolled ? ' navbar-scrolled' : ''}`}>
-        <div ref={navStackRef} className="nav-stack">
-          <div className="nav-shell">
-            <button
-              type="button"
-              className="logo logo-button"
-              aria-label="Scoot Vacations home"
-              onClick={() => {
-                setIsNavOpen(false);
-                scrollToSection('#home');
-              }}
-            >
-              <img src={navLogo} alt="Scoot Vacations" className="logo-image" />
-            </button>
-
-            <div className="nav-links" aria-label="Primary navigation">
-              {navLinks.map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  className="nav-link"
-                  onClick={() => scrollToSection(item.target)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="nav-actions">
-              <button
-                type="button"
-                className="btn btn-primary nav-primary"
-                onClick={() =>
-                  openWhatsApp(
-                    'Hello Scoot Vacations, I want help planning the right trip for me.'
-                  )
-                }
-              >
-                Plan a Trip
-              </button>
-
-              <button
-                type="button"
-                className={`nav-menu-toggle${isNavOpen ? ' is-open' : ''}`}
-                aria-expanded={isNavOpen}
-                aria-controls="mobile-nav"
-                aria-label={isNavOpen ? 'Close navigation menu' : 'Open navigation menu'}
-                onClick={() => setIsNavOpen((open) => !open)}
-              >
-                <span className="nav-menu-toggle-glyph" aria-hidden="true">
-                  <span className="nav-menu-toggle-bar nav-menu-toggle-bar--top" />
-                  <span className="nav-menu-toggle-bar nav-menu-toggle-bar--middle" />
-                  <span className="nav-menu-toggle-bar nav-menu-toggle-bar--bottom" />
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <div
-            id="mobile-nav"
-            className={`mobile-nav${isNavOpen ? ' is-open' : ''}`}
-            aria-hidden={!isNavOpen}
-          >
-            <div className="mobile-nav-links" aria-label="Mobile navigation">
-              {navLinks.map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  className="mobile-nav-link"
-                  onClick={() => handleNavLinkClick(item.target)}
-                >
-                  <span>{item.label}</span>
-                  <ArrowRight size={16} />
-                </button>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              className="btn btn-primary mobile-nav-primary"
-              onClick={() => {
-                setIsNavOpen(false);
-                openWhatsApp(
-                  'Hello Scoot Vacations, I want help planning the right trip for me.'
-                );
-              }}
-            >
-              Plan a Trip
-            </button>
-          </div>
-        </div>
-      </nav>
+      <SiteHeader />
 
       <ScrollHero
         frameUrls={nightFrameManifest}
         onExplorePackages={() => scrollToSection('#services')}
-        onOpenWhatsApp={() =>
-          openWhatsApp(
-            'Hello Scoot Vacations, I want help planning the right trip for me.'
-          )
-        }
+        onOpenWhatsApp={() => openWhatsApp(defaultPlanMessage)}
       />
 
       <main>
@@ -946,7 +778,7 @@ function App() {
 
                 <div className="contact-actions">
                   <a
-                    href={`https://wa.me/${whatsappNumber}`}
+                    href={buildWhatsAppLink()}
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-primary"
@@ -991,71 +823,26 @@ function App() {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="container footer-shell">
-          <div className="footer-head">
-            <img
-              src={footerLogo}
-              alt="Scoot Vacations"
-              className="footer-logo-image"
-            />
-
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="footer-head-link"
-            >
-              @scoot_vacations
-              <ArrowRight size={15} />
-            </a>
-          </div>
-
-          <div className="footer-main">
-            <div className="footer-copy-block">
-              <div className="section-kicker section-kicker-light">Scoot Vacations</div>
-              <p className="footer-copy">
-                Tour packages, group departures, stays, and support arranged with a
-                clearer hand from the first message onward.
-              </p>
-            </div>
-
-            <div className="footer-contact-block">
-              <a href="mailto:scootvacations@gmail.com" className="footer-contact-email">
-                scootvacations@gmail.com
-              </a>
-
-              <div className="footer-phone-list">
-                <a href="tel:+919446482881">+91 94464 82881</a>
-                <a href="tel:+919526372881">+91 95263 72881</a>
-                <a href="tel:+919544121932">+91 95441 21932</a>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer-nav-row">
-            <div className="footer-nav-links">
-              {navLinks.map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  onClick={() => scrollToSection(item.target)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            <span className="footer-note">All routes begin with one message.</span>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
       {cursorEnabled ? (
         <div ref={cursorRingRef} className="custom-cursor" aria-hidden="true" />
       ) : null}
     </div>
   );
+}
+
+function App() {
+  const pathname =
+    typeof window === 'undefined'
+      ? '/'
+      : normalizePath(window.location.pathname);
+
+  if (legalPages[pathname]) {
+    return <LegalPage pathname={pathname} />;
+  }
+
+  return <HomePage />;
 }
 
 export default App;
