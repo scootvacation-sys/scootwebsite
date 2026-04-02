@@ -240,7 +240,7 @@
 
 @media (max-width: 760px) {
   .gallery-section {
-    min-height: 128svh;
+    min-height: 132svh;
   }
 
   .gallery-copy {
@@ -265,7 +265,7 @@
 
 @media (max-width: 520px) {
   .gallery-section {
-    min-height: 118svh;
+    min-height: 122svh;
   }
 
   .gallery-copy {

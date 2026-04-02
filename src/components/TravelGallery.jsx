@@ -14,6 +14,9 @@ const getTrackMetrics = (viewportWidth) => {
       curve: 16,
       tilt: 7.5,
       drift: 10,
+      sweep: 0.08,
+      backdropX: 3.8,
+      backdropY: 1.5,
     };
   }
 
@@ -25,6 +28,9 @@ const getTrackMetrics = (viewportWidth) => {
       curve: 18,
       tilt: 8.2,
       drift: 12,
+      sweep: 0.1,
+      backdropX: 4.8,
+      backdropY: 1.8,
     };
   }
 
@@ -36,6 +42,9 @@ const getTrackMetrics = (viewportWidth) => {
       curve: 21,
       tilt: 9,
       drift: 14,
+      sweep: 0.12,
+      backdropX: 5.6,
+      backdropY: 2,
     };
   }
 
@@ -46,6 +55,9 @@ const getTrackMetrics = (viewportWidth) => {
     curve: 24,
     tilt: 9.5,
     drift: 16,
+    sweep: 0.14,
+    backdropX: 6.2,
+    backdropY: 2.2,
   };
 };
 
@@ -141,7 +153,7 @@ function TravelGallery() {
   const focusFloat = metrics.edgeFocus + progress * travelSpan;
   const activeIndex = Math.round(focusFloat);
   const phase = progress * 2 - 1;
-  const sweepOffset = phase * viewportWidth * 0.14;
+  const sweepOffset = phase * viewportWidth * metrics.sweep;
   const trackTranslateX =
     viewportWidth / 2 -
     (focusFloat * step + metrics.cardWidth / 2) +
@@ -165,9 +177,9 @@ function TravelGallery() {
                 style={{
                   transform: `scale(${(1.08 - progress * 0.04).toFixed(
                     3
-                  )}) translate3d(${((progress - 0.5) * 6.2).toFixed(2)}vw, ${(
+                  )}) translate3d(${((progress - 0.5) * metrics.backdropX).toFixed(2)}vw, ${(
                     (0.5 - progress) *
-                    2.2
+                    metrics.backdropY
                   ).toFixed(2)}vh, 0)`,
                 }}
               />
