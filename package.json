@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/generate-ezgif-manifest.mjs",
-    "prebuild": "node scripts/generate-ezgif-manifest.mjs",
+    "predev": "node scripts/generate-ezgif-manifest.mjs && node scripts/generate-travel-gallery.mjs",
+    "prebuild": "node scripts/generate-ezgif-manifest.mjs && node scripts/generate-travel-gallery.mjs",
     "dev": "vite",
     "build": "vite build",
+    "gallery:build": "node scripts/generate-travel-gallery.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -26,6 +27,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "sharp": "^0.34.5",
     "vite": "^8.0.1"
   }
 }

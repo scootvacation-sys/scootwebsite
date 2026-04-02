@@ -10,6 +10,7 @@ import LegalPage from './components/LegalPage';
 import SiteFooter from './components/SiteFooter';
 import SiteHeader from './components/SiteHeader';
 import ScrollHero from './components/ScrollHero';
+import TravelGallery from './components/TravelGallery';
 import nightFrameManifest from './generated/night-ezgif-manifest.json';
 import { legalPages } from './legalContent';
 import { buildWhatsAppLink, defaultPlanMessage, instagramUrl } from './siteConfig';
@@ -702,6 +703,8 @@ function HomePage() {
           </div>
         </section>
 
+        <TravelGallery />
+
         <section id="instagram" className="section instagram-section">
           <div className="container instagram-shell">
             <div className="instagram-intro">
@@ -712,8 +715,8 @@ function HomePage() {
                   following.
                 </h2>
                 <p>
-                  Placeholder travel photos for now. The section is ready for real
-                  Scoot trip moments later.
+                  Follow Scoot for route drops, quick trip updates, and lighter
+                  moments that keep the next escape in sight.
                 </p>
               </div>
 

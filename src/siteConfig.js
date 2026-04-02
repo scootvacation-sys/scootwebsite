@@ -10,7 +10,8 @@ export const instagramUrl =
 export const siteNavSections = [
   { label: 'Services', target: '#services' },
   { label: 'Why Scoot', target: '#why-scoot' },
-  { label: 'Gallery', target: '#instagram' },
+  { label: 'Gallery', target: '#gallery' },
+  { label: 'Instagram', target: '#instagram' },
   { label: 'Contact', target: '#contact' },
 ];
 
