@@ -240,12 +240,12 @@
 
 @media (max-width: 760px) {
   .gallery-section {
-    min-height: 136svh;
+    min-height: 128svh;
   }
 
   .gallery-copy {
     max-width: 26rem;
-    padding-top: 4rem;
+    padding-top: 3.8rem;
   }
 
   .gallery-copy h2 {
@@ -259,18 +259,18 @@
   }
 
   .gallery-track {
-    top: 58%;
+    top: 61%;
   }
 }
 
 @media (max-width: 520px) {
   .gallery-section {
-    min-height: 126svh;
+    min-height: 118svh;
   }
 
   .gallery-copy {
     max-width: 18rem;
-    padding-top: 3.7rem;
+    padding-top: 3.5rem;
   }
 
   .gallery-copy h2 {
@@ -284,7 +284,7 @@
   }
 
   .gallery-track {
-    top: 56%;
+    top: 60%;
   }
 }
 
