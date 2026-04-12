@@ -186,72 +186,74 @@ function TravelGallery() {
             </div>
           ) : null}
 
-          <div className="container gallery-scene">
-            <div className="gallery-copy">
-              <div className="section-kicker section-kicker-light">
-                Travel Gallery
+          <div className="gallery-scene">
+            <div className="container gallery-copy-wrap">
+              <div className="gallery-copy">
+                <div className="section-kicker section-kicker-light">
+                  Travel Gallery
+                </div>
+                <h2
+                  style={{
+                    opacity: (0.8 + introProgress * 0.2).toFixed(3),
+                    transform: `translate3d(0, ${(18 - introProgress * 18).toFixed(
+                      2
+                    )}px, 0)`,
+                  }}
+                >
+                  Every journey leaves a{' '}
+                  <span className="gallery-copy-accent">story.</span>
+                </h2>
+                <p
+                  style={{
+                    opacity: (0.68 + introProgress * 0.32).toFixed(3),
+                    transform: `translate3d(0, ${(12 - introProgress * 12).toFixed(
+                      2
+                    )}px, 0)`,
+                  }}
+                >
+                  Explore real moments captured during Scoot Vacations trips
+                  across beautiful destinations.
+                </p>
               </div>
-              <h2
-                style={{
-                  opacity: (0.8 + introProgress * 0.2).toFixed(3),
-                  transform: `translate3d(0, ${(18 - introProgress * 18).toFixed(
-                    2
-                  )}px, 0)`,
-                }}
-              >
-                Every journey leaves a{' '}
-                <span className="gallery-copy-accent">story.</span>
-              </h2>
-              <p
-                style={{
-                  opacity: (0.68 + introProgress * 0.32).toFixed(3),
-                  transform: `translate3d(0, ${(12 - introProgress * 12).toFixed(
-                    2
-                  )}px, 0)`,
-                }}
-              >
-                Explore real moments captured during Scoot Vacations trips
-                across beautiful destinations.
-              </p>
             </div>
-          </div>
 
-          <div className="gallery-stage">
-            <div className="gallery-track-wrap">
-              <div
-                className="gallery-track"
-                style={{
-                  gap: `${metrics.gap}px`,
-                  transform: `translateX(${trackTranslateX.toFixed(
-                    2
-                  )}px) translateY(calc(-50% + ${trackTranslateY.toFixed(
-                    2
-                  )}px)) scale(${trackScale.toFixed(3)})`,
-                }}
-              >
-                {galleryItems.map((item, index) => {
-                  const absDiff = Math.abs(index - focusFloat);
+            <div className="gallery-stage">
+              <div className="gallery-track-wrap">
+                <div
+                  className="gallery-track"
+                  style={{
+                    gap: `${metrics.gap}px`,
+                    transform: `translateX(${trackTranslateX.toFixed(
+                      2
+                    )}px) translateY(calc(-50% + ${trackTranslateY.toFixed(
+                      2
+                    )}px)) scale(${trackScale.toFixed(3)})`,
+                  }}
+                >
+                  {galleryItems.map((item, index) => {
+                    const absDiff = Math.abs(index - focusFloat);
 
-                  return (
-                    <figure
-                      key={item.id}
-                      className={`gallery-card${
-                        index === activeIndex ? ' is-active' : ''
-                      }${absDiff > (viewportWidth <= 760 ? 4 : 5.1) ? ' is-distant' : ''}`}
-                      style={{
-                        width: `${metrics.cardWidth}px`,
-                        ...getCardStyle(index, focusFloat, metrics),
-                      }}
-                    >
-                      <img
-                        src={item.src}
-                        alt={item.alt}
-                        loading={index < 5 ? 'eager' : 'lazy'}
-                        decoding="async"
-                      />
-                    </figure>
-                  );
-                })}
+                    return (
+                      <figure
+                        key={item.id}
+                        className={`gallery-card${
+                          index === activeIndex ? ' is-active' : ''
+                        }${absDiff > (viewportWidth <= 760 ? 4 : 5.1) ? ' is-distant' : ''}`}
+                        style={{
+                          width: `${metrics.cardWidth}px`,
+                          ...getCardStyle(index, focusFloat, metrics),
+                        }}
+                      >
+                        <img
+                          src={item.src}
+                          alt={item.alt}
+                          loading={index < 5 ? 'eager' : 'lazy'}
+                          decoding="async"
+                        />
+                      </figure>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

@@ -77,6 +77,14 @@ body.mobile-nav-open {
   max-width: 15.4rem;
   height: 2.34rem;
   object-fit: contain;
+  transition: filter var(--transition-fast), transform var(--transition-fast);
+}
+
+.logo-button:hover .logo-image,
+.logo-button:focus-visible .logo-image {
+  filter: brightness(0) saturate(100%) invert(45%) sepia(79%) saturate(1825%)
+    hue-rotate(194deg) brightness(102%) contrast(96%);
+  transform: translateY(-1px);
 }
 
 .nav-links {

@@ -60,22 +60,60 @@
   position: relative;
   z-index: 4;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.gallery-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 22, 33, 0.9) 0%,
+      rgba(11, 22, 33, 0.7) 12%,
+      rgba(11, 22, 33, 0.3) 28%,
+      rgba(11, 22, 33, 0.08) 42%,
+      rgba(11, 22, 33, 0.05) 68%,
+      rgba(11, 22, 33, 0.72) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(11, 22, 33, 0.98) 0%,
+      rgba(11, 22, 33, 0.72) 10%,
+      transparent 19%,
+      transparent 81%,
+      rgba(11, 22, 33, 0.72) 90%,
+      rgba(11, 22, 33, 0.98) 100%
+    ),
+    radial-gradient(circle at center top, rgba(255, 255, 255, 0.06), transparent 34%);
+}
+
+.gallery-copy-wrap {
+  position: relative;
+  z-index: 4;
 }
 
 .gallery-copy {
   display: grid;
   justify-items: center;
-  max-width: 35rem;
+  max-width: 33rem;
   margin-inline: auto;
-  padding-top: clamp(4.5rem, 7vh, 5.5rem);
+  padding-top: clamp(3.9rem, 6vh, 4.8rem);
+  position: relative;
+  z-index: 4;
   text-align: center;
 }
 
 .gallery-copy h2 {
   margin: 0.9rem 0 0;
-  max-width: 9.6ch;
+  max-width: 9.1ch;
   color: white;
-  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-size: clamp(2.5rem, 4.8vw, 5.1rem);
   line-height: 0.92;
   letter-spacing: -0.06em;
   text-wrap: balance;
@@ -88,17 +126,21 @@
 }
 
 .gallery-copy p {
-  max-width: 25rem;
+  max-width: 23rem;
   margin: 0.9rem 0 0;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 0.98rem;
+  font-size: clamp(1rem, 1.1vw, 1.3rem);
   line-height: 1.6;
   will-change: transform, opacity;
 }
 
 .gallery-stage {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: clamp(-1rem, -2vh, -0.35rem);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
   perspective: 2000px;
 }
 
@@ -112,25 +154,7 @@
 }
 
 .gallery-stage::before {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(11, 22, 33, 0.92) 0%,
-      rgba(11, 22, 33, 0.74) 10%,
-      rgba(11, 22, 33, 0.26) 22%,
-      rgba(11, 22, 33, 0.06) 34%,
-      rgba(11, 22, 33, 0.03) 66%,
-      rgba(11, 22, 33, 0.72) 100%
-    ),
-    linear-gradient(
-      90deg,
-      rgba(11, 22, 33, 0.98) 0%,
-      rgba(11, 22, 33, 0.76) 10%,
-      transparent 19%,
-      transparent 81%,
-      rgba(11, 22, 33, 0.76) 90%,
-      rgba(11, 22, 33, 0.98) 100%
-    );
+  background: none;
 }
 
 .gallery-stage::after {
@@ -151,15 +175,16 @@
 }
 
 .gallery-track-wrap {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
 .gallery-track {
   position: absolute;
   left: 0;
-  top: 61%;
+  top: 54%;
   display: flex;
   align-items: flex-start;
   transform-style: preserve-3d;
@@ -223,18 +248,73 @@
   pointer-events: none;
 }
 
+@media (min-width: 1440px) {
+  .gallery-copy {
+    max-width: 44rem;
+    padding-top: clamp(4.2rem, 7vh, 5.6rem);
+  }
+
+  .gallery-copy p {
+    max-width: 28rem;
+  }
+
+  .gallery-stage {
+    margin-top: clamp(-1.4rem, -2.6vh, -0.5rem);
+  }
+
+  .gallery-track {
+    top: 52%;
+  }
+}
+
+@media (min-width: 1121px) and (max-width: 1439px) {
+  .gallery-copy {
+    max-width: 36rem;
+    padding-top: clamp(4rem, 6vh, 5rem);
+  }
+
+  .gallery-copy h2 {
+    font-size: clamp(2.75rem, 4.9vw, 4.5rem);
+  }
+
+  .gallery-copy p {
+    max-width: 26rem;
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+  }
+
+  .gallery-stage {
+    margin-top: clamp(-0.4rem, -0.8vh, -0.15rem);
+  }
+
+  .gallery-track {
+    top: 57%;
+  }
+}
+
 @media (max-width: 1120px) {
   .gallery-section {
     min-height: 162svh;
   }
 
   .gallery-copy {
-    max-width: 32rem;
-    padding-top: clamp(4.4rem, 6.8vh, 5.3rem);
+    max-width: 30rem;
+    padding-top: clamp(4rem, 6.2vh, 4.8rem);
+  }
+
+  .gallery-copy h2 {
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+  }
+
+  .gallery-copy p {
+    font-size: clamp(0.96rem, 1.5vw, 1.08rem);
+  }
+
+  .gallery-stage {
+    margin-top: 0.5rem;
   }
 
   .gallery-track {
-    top: 62%;
+    top: 58%;
   }
 }
 
@@ -258,8 +338,12 @@
     font-size: 0.92rem;
   }
 
+  .gallery-stage {
+    margin-top: 0.85rem;
+  }
+
   .gallery-track {
-    top: 61%;
+    top: 58%;
   }
 }
 
@@ -283,8 +367,12 @@
     font-size: 0.84rem;
   }
 
+  .gallery-stage {
+    margin-top: 1rem;
+  }
+
   .gallery-track {
-    top: 60%;
+    top: 56%;
   }
 }
 
@@ -299,3 +387,4 @@
     transform: none !important;
   }
 }
+
