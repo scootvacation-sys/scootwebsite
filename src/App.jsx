@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
+import ChatbotWidget from './components/ChatbotWidget';
 import LegalPage from './components/LegalPage';
 import SiteFooter from './components/SiteFooter';
 import SiteHeader from './components/SiteHeader';
@@ -831,6 +832,8 @@ function HomePage() {
       {cursorEnabled ? (
         <div ref={cursorRingRef} className="custom-cursor" aria-hidden="true" />
       ) : null}
+
+      <ChatbotWidget />
     </div>
   );
 }
