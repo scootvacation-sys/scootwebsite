@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { buildWhatsAppLink } from '../siteConfig';
+import { openUrlForCurrentDevice } from '../utils/navigation';
 
 const qaItems = [
   {
@@ -265,6 +266,11 @@ function ChatbotWidget() {
                               target={action.href.startsWith('http') ? '_blank' : undefined}
                               rel={action.href.startsWith('http') ? 'noreferrer' : undefined}
                               className="chatbot-bubble-action"
+                              onClick={(event) =>
+                                action.href.startsWith('http')
+                                  ? openUrlForCurrentDevice(event, action.href)
+                                  : undefined
+                              }
                             >
                               {renderActionIcon(action.icon)}
                               <span>{action.label}</span>
@@ -342,6 +348,12 @@ function ChatbotWidget() {
             target="_blank"
             rel="noreferrer"
             className="chatbot-whatsapp"
+            onClick={(event) =>
+              openUrlForCurrentDevice(
+                event,
+                buildWhatsAppLink(whatsappMessage)
+              )
+            }
           >
             <span>Continue on WhatsApp</span>
             <SendHorizonal size={15} />

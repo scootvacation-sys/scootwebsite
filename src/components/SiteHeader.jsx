@@ -1,27 +1,42 @@
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { buildSectionLinks, buildWhatsAppLink, navLogo } from '../siteConfig';
+import {
+  isHomePath,
+  openUrlForCurrentDevice,
+  scrollToHashTarget,
+} from '../utils/navigation';
 
 function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const navStackRef = useRef(null);
   const navLinks = buildSectionLinks();
+
   const handleSectionNavigation = (href) => (event) => {
-    if (!href.startsWith('#')) {
+    const hashIndex = href.indexOf('#');
+    if (hashIndex === -1) {
+      return;
+    }
+
+    const hash = href.slice(hashIndex);
+    if (!isHomePath(window.location.pathname)) {
+      setIsNavOpen(false);
       return;
     }
 
     event.preventDefault();
     setIsNavOpen(false);
 
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const scrollToTarget = () => scrollToHashTarget(hash, 112);
+    if (window.innerWidth <= 960) {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(scrollToTarget);
+      });
       return;
     }
 
-    window.location.hash = href;
+    scrollToTarget();
   };
 
   useEffect(() => {
@@ -91,10 +106,10 @@ function SiteHeader() {
       <div ref={navStackRef} className="nav-stack">
         <div className="nav-shell">
           <a
-            href="#home"
+            href="/#home"
             className="logo logo-button"
             aria-label="Scoot Vacations home"
-            onClick={handleSectionNavigation('#home')}
+            onClick={handleSectionNavigation('/#home')}
           >
             <img src={navLogo} alt="Scoot Vacations" className="logo-image" />
           </a>
@@ -118,6 +133,9 @@ function SiteHeader() {
               target="_blank"
               rel="noreferrer"
               className="btn btn-primary nav-primary"
+              onClick={(event) =>
+                openUrlForCurrentDevice(event, buildWhatsAppLink())
+              }
             >
               Plan a Trip
             </a>
@@ -163,7 +181,10 @@ function SiteHeader() {
             target="_blank"
             rel="noreferrer"
             className="btn btn-primary mobile-nav-primary"
-            onClick={() => setIsNavOpen(false)}
+            onClick={(event) => {
+              setIsNavOpen(false);
+              openUrlForCurrentDevice(event, buildWhatsAppLink());
+            }}
           >
             Plan a Trip
           </a>

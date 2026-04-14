@@ -15,6 +15,7 @@ import TravelGallery from './components/TravelGallery';
 import nightFrameManifest from './generated/night-ezgif-manifest.json';
 import { legalPages } from './legalContent';
 import { buildWhatsAppLink, defaultPlanMessage, instagramUrl } from './siteConfig';
+import { normalizePath, openUrlForCurrentDevice, scrollToHashTarget } from './utils/navigation';
 
 const services = [
   {
@@ -121,14 +122,6 @@ const instagramPhotos = [
 ];
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const normalizePath = (pathname) => {
-  if (!pathname || pathname === '/') {
-    return '/';
-  }
-
-  return pathname.replace(/\/+$/, '') || '/';
-};
-
 function HomePage() {
   const [cursorEnabled, setCursorEnabled] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
@@ -431,16 +424,12 @@ function HomePage() {
   }, []);
 
   const scrollToSection = (selector) => {
-    document
-      .querySelector(selector)
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToHashTarget(selector, 112);
   };
 
   const openWhatsApp = (message) => {
     const url = buildWhatsAppLink(message);
-
-    // Mobile browsers are more reliable with same-tab navigation for deep links.
-    if (window.matchMedia('(max-width: 760px)').matches) {
+    if (window.matchMedia('(max-width: 960px)').matches) {
       window.location.href = url;
       return;
     }
@@ -797,6 +786,9 @@ function HomePage() {
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-primary"
+                    onClick={(event) =>
+                      openUrlForCurrentDevice(event, buildWhatsAppLink())
+                    }
                   >
                     <MessageCircle size={18} strokeWidth={2.1} />
                     Chat on WhatsApp

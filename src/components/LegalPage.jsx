@@ -9,6 +9,7 @@ import './LegalPage.css';
 import { legalContact, legalLinks, legalPages } from '../legalContent';
 import SiteFooter from './SiteFooter';
 import SiteHeader from './SiteHeader';
+import { openUrlForCurrentDevice } from '../utils/navigation';
 
 function LegalPage({ pathname }) {
   const page = legalPages[pathname];
@@ -99,6 +100,9 @@ function LegalPage({ pathname }) {
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-primary legal-help-action"
+                  onClick={(event) =>
+                    openUrlForCurrentDevice(event, legalContact.whatsappHref)
+                  }
                 >
                   <MessageCircle size={17} strokeWidth={2.1} />
                   WhatsApp
