@@ -22,4 +22,4 @@ export const buildSectionLinks = () =>
   }));
 
 export const buildWhatsAppLink = (message = defaultPlanMessage) =>
-  `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;

@@ -212,6 +212,7 @@ body.mobile-nav-open {
 
 .nav-menu-toggle-bar {
   position: absolute;
+  left: 0;
   right: 0;
   display: block;
   height: 2px;
@@ -238,7 +239,7 @@ body.mobile-nav-open {
 }
 
 .nav-menu-toggle-bar--bottom {
-  bottom: 0;
+  top: calc(100% - 2px);
   width: 1.15rem;
 }
 
@@ -253,7 +254,6 @@ body.mobile-nav-open {
 }
 
 .nav-menu-toggle.is-open .nav-menu-toggle-bar--bottom {
-  bottom: auto;
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
 }

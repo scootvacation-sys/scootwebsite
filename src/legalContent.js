@@ -12,7 +12,8 @@ export const legalContact = {
   email: 'scootvacations@gmail.com',
   primaryPhone: '+91 94464 82881',
   secondaryPhones: ['+91 95263 72881', '+91 95441 21932'],
-  whatsappHref: 'https://wa.me/919446482881',
+  whatsappHref:
+    'https://api.whatsapp.com/send?phone=919446482881&text=Hello%20Scoot%20Vacations%2C%20I%20want%20help%20planning%20the%20right%20trip%20for%20me.',
   effectiveDate: '26 March 2026',
   registeredAddress:
     '1st Floor, Thekkumpuram Building, Calicut Airport Jn, Kondotty, Malappuram',
