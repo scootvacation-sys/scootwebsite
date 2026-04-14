@@ -437,7 +437,18 @@ function HomePage() {
   };
 
   const openWhatsApp = (message) => {
-    window.open(buildWhatsAppLink(message), '_blank');
+    const url = buildWhatsAppLink(message);
+
+    // Mobile browsers are more reliable with same-tab navigation for deep links.
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      window.location.href = url;
+      return;
+    }
+
+    const popup = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!popup) {
+      window.location.href = url;
+    }
   };
 
   const getSectionRevealProgress = (sectionProgress, start, end) => {

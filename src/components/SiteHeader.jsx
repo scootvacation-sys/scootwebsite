@@ -7,6 +7,22 @@ function SiteHeader() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const navStackRef = useRef(null);
   const navLinks = buildSectionLinks();
+  const handleSectionNavigation = (href) => (event) => {
+    if (!href.startsWith('#')) {
+      return;
+    }
+
+    event.preventDefault();
+    setIsNavOpen(false);
+
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    window.location.hash = href;
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,13 +90,23 @@ function SiteHeader() {
     <nav className={`navbar${isScrolled ? ' navbar-scrolled' : ''}`}>
       <div ref={navStackRef} className="nav-stack">
         <div className="nav-shell">
-          <a href="/#home" className="logo logo-button" aria-label="Scoot Vacations home">
+          <a
+            href="#home"
+            className="logo logo-button"
+            aria-label="Scoot Vacations home"
+            onClick={handleSectionNavigation('#home')}
+          >
             <img src={navLogo} alt="Scoot Vacations" className="logo-image" />
           </a>
 
           <div className="nav-links" aria-label="Primary navigation">
             {navLinks.map((item) => (
-              <a key={item.label} href={item.href} className="nav-link">
+              <a
+                key={item.label}
+                href={item.href}
+                className="nav-link"
+                onClick={handleSectionNavigation(item.href)}
+              >
                 {item.label}
               </a>
             ))}
@@ -124,7 +150,7 @@ function SiteHeader() {
                 key={item.label}
                 href={item.href}
                 className="mobile-nav-link"
-                onClick={() => setIsNavOpen(false)}
+                onClick={handleSectionNavigation(item.href)}
               >
                 <span>{item.label}</span>
                 <ArrowRight size={16} />

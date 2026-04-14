@@ -4,12 +4,27 @@ import { buildSectionLinks, footerLogo, instagramUrl } from '../siteConfig';
 
 function SiteFooter() {
   const navLinks = buildSectionLinks();
+  const handleSectionNavigation = (href) => (event) => {
+    if (!href.startsWith('#')) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    window.location.hash = href;
+  };
 
   return (
     <footer className="footer">
       <div className="container footer-shell">
         <div className="footer-head">
-          <a href="/#home" aria-label="Scoot Vacations home">
+          <a href="#home" aria-label="Scoot Vacations home" onClick={handleSectionNavigation('#home')}>
             <img
               src={footerLogo}
               alt="Scoot Vacations"
@@ -58,7 +73,7 @@ function SiteFooter() {
         <div className="footer-nav-row">
           <div className="footer-nav-links">
             {navLinks.map((item) => (
-              <a key={item.label} href={item.href}>
+              <a key={item.label} href={item.href} onClick={handleSectionNavigation(item.href)}>
                 {item.label}
               </a>
             ))}

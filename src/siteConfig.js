@@ -18,7 +18,7 @@ export const siteNavSections = [
 export const buildSectionLinks = () =>
   siteNavSections.map((item) => ({
     label: item.label,
-    href: `/${item.target}`,
+    href: item.target,
   }));
 
 export const buildWhatsAppLink = (message = defaultPlanMessage) =>
