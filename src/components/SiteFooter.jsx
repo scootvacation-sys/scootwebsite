@@ -1,33 +1,15 @@
 import { ArrowRight } from 'lucide-react';
 import { legalContact, legalLinks } from '../legalContent';
 import { buildSectionLinks, footerLogo, instagramUrl } from '../siteConfig';
-import { isHomePath, scrollToHashTarget } from '../utils/navigation';
 
 function SiteFooter() {
   const navLinks = buildSectionLinks();
-  const handleSectionNavigation = (href) => (event) => {
-    const hashIndex = href.indexOf('#');
-    if (hashIndex === -1) {
-      return;
-    }
-
-    if (!isHomePath(window.location.pathname)) {
-      return;
-    }
-
-    event.preventDefault();
-    scrollToHashTarget(href.slice(hashIndex), 112);
-  };
 
   return (
     <footer className="footer">
       <div className="container footer-shell">
         <div className="footer-head">
-          <a
-            href="/#home"
-            aria-label="Scoot Vacations home"
-            onClick={handleSectionNavigation('/#home')}
-          >
+          <a href="/#home" aria-label="Scoot Vacations home">
             <img
               src={footerLogo}
               alt="Scoot Vacations"
@@ -76,7 +58,7 @@ function SiteFooter() {
         <div className="footer-nav-row">
           <div className="footer-nav-links">
             {navLinks.map((item) => (
-              <a key={item.label} href={item.href} onClick={handleSectionNavigation(item.href)}>
+              <a key={item.label} href={item.href}>
                 {item.label}
               </a>
             ))}

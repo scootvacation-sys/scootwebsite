@@ -1,43 +1,13 @@
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { buildSectionLinks, buildWhatsAppLink, navLogo } from '../siteConfig';
-import {
-  isHomePath,
-  openUrlForCurrentDevice,
-  scrollToHashTarget,
-} from '../utils/navigation';
+import { openUrlForCurrentDevice } from '../utils/navigation';
 
 function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const navStackRef = useRef(null);
   const navLinks = buildSectionLinks();
-
-  const handleSectionNavigation = (href) => (event) => {
-    const hashIndex = href.indexOf('#');
-    if (hashIndex === -1) {
-      return;
-    }
-
-    const hash = href.slice(hashIndex);
-    if (!isHomePath(window.location.pathname)) {
-      setIsNavOpen(false);
-      return;
-    }
-
-    event.preventDefault();
-    setIsNavOpen(false);
-
-    const scrollToTarget = () => scrollToHashTarget(hash, 112);
-    if (window.innerWidth <= 960) {
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(scrollToTarget);
-      });
-      return;
-    }
-
-    scrollToTarget();
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,7 +79,7 @@ function SiteHeader() {
             href="/#home"
             className="logo logo-button"
             aria-label="Scoot Vacations home"
-            onClick={handleSectionNavigation('/#home')}
+            onClick={() => setIsNavOpen(false)}
           >
             <img src={navLogo} alt="Scoot Vacations" className="logo-image" />
           </a>
@@ -120,7 +90,6 @@ function SiteHeader() {
                 key={item.label}
                 href={item.href}
                 className="nav-link"
-                onClick={handleSectionNavigation(item.href)}
               >
                 {item.label}
               </a>
@@ -168,7 +137,7 @@ function SiteHeader() {
                 key={item.label}
                 href={item.href}
                 className="mobile-nav-link"
-                onClick={handleSectionNavigation(item.href)}
+                onClick={() => setIsNavOpen(false)}
               >
                 <span>{item.label}</span>
                 <ArrowRight size={16} />

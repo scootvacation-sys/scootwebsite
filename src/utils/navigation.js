@@ -19,13 +19,10 @@ export const scrollToHashTarget = (hash, offset = 0) => {
     return false;
   }
 
-  const targetTop =
-    window.scrollY + target.getBoundingClientRect().top - Math.max(offset, 0);
-
   window.history.replaceState(null, '', hash);
-  window.scrollTo({
-    top: Math.max(targetTop, 0),
+  target.scrollIntoView({
     behavior: 'smooth',
+    block: 'start',
   });
 
   return true;
